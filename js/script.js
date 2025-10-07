@@ -72,6 +72,9 @@
             elements.newsletterForm.addEventListener('submit', handleNewsletterForm);
         }
 
+        // Booking modal functionality
+        setupBookingModal();
+
         // Close mobile nav when clicking outside
         document.addEventListener('click', handleOutsideClick);
     }
@@ -820,7 +823,10 @@
                         <div class="destination-info">
                             <h3 class="destination-title">${destination.name}</h3>
                             <p class="destination-price">Starting from ${destination.price}</p>
-                            <a href="#book" class="btn btn-outline">Book Now</a>
+                            <a href="#book" class="btn btn-outline book-now-btn" 
+                               data-destination="${destination.name}" 
+                               data-price="${destination.price}" 
+                               data-image="${destination.image}">Book Now</a>
                         </div>
                     </div>
                 </div>
@@ -906,6 +912,235 @@
             ogUrl.content = config.companyInfo.website;
         }
     }
+
+    // Booking Modal Functionality
+    function setupBookingModal() {
+        // Handle Book Now button clicks
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('book-now-btn') || e.target.closest('.book-now-btn')) {
+                e.preventDefault();
+                const bookBtn = e.target.classList.contains('book-now-btn') ? e.target : e.target.closest('.book-now-btn');
+                openBookingModal(bookBtn);
+            }
+        });
+
+        // Handle booking form submission
+        const quickBookingForm = document.getElementById('quickBookingForm');
+        if (quickBookingForm) {
+            quickBookingForm.addEventListener('submit', handleQuickBooking);
+        }
+
+        // Close modal when clicking backdrop
+        const bookingModal = document.getElementById('bookingModal');
+        if (bookingModal) {
+            bookingModal.addEventListener('click', function(e) {
+                if (e.target === bookingModal) {
+                    closeBookingModal();
+                }
+            });
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('bookingModal');
+                if (modal && modal.style.display !== 'none') {
+                    closeBookingModal();
+                }
+            }
+        });
+    }
+
+    function openBookingModal(bookBtn) {
+        const modal = document.getElementById('bookingModal');
+        if (!modal) return;
+
+        // Get destination data
+        const destination = bookBtn.getAttribute('data-destination') || 'Selected Destination';
+        const price = bookBtn.getAttribute('data-price') || 'Contact for pricing';
+        const image = bookBtn.getAttribute('data-image') || '';
+
+        // Update modal content
+        const modalDestinationName = document.getElementById('modalDestinationName');
+        const modalDestinationPrice = document.getElementById('modalDestinationPrice');
+        const modalDestinationImage = document.getElementById('modalDestinationImage');
+
+        if (modalDestinationName) modalDestinationName.textContent = destination;
+        if (modalDestinationPrice) modalDestinationPrice.textContent = `Starting from ${price}`;
+        if (modalDestinationImage && image) {
+            modalDestinationImage.src = image;
+            modalDestinationImage.alt = destination;
+        }
+
+        // Pre-fill the special requests field with destination context
+        const modalRequests = document.getElementById('modalRequests');
+        if (modalRequests) {
+            modalRequests.placeholder = `Tell us about your dream trip to ${destination}. Any specific interests, activities, or requirements for your visit?`;
+        }
+
+        // Show modal
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        // Focus on first input
+        setTimeout(() => {
+            const firstInput = modal.querySelector('input:not([type="hidden"])');
+            if (firstInput) firstInput.focus();
+        }, 300);
+
+        // Set minimum date to today
+        const checkinInput = document.getElementById('modalCheckin');
+        if (checkinInput) {
+            const today = new Date().toISOString().split('T')[0];
+            checkinInput.setAttribute('min', today);
+        }
+    }
+
+    function closeBookingModal() {
+        const modal = document.getElementById('bookingModal');
+        if (!modal) return;
+
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        
+        // Reset form
+        const form = document.getElementById('quickBookingForm');
+        if (form) {
+            form.reset();
+            clearAllErrors(form);
+        }
+
+        // Clear modal content
+        const modalDestinationName = document.getElementById('modalDestinationName');
+        const modalDestinationPrice = document.getElementById('modalDestinationPrice');
+        const modalDestinationImage = document.getElementById('modalDestinationImage');
+        const modalRequests = document.getElementById('modalRequests');
+
+        if (modalDestinationName) modalDestinationName.textContent = 'Selected Destination';
+        if (modalDestinationPrice) modalDestinationPrice.textContent = 'Starting from $0';
+        if (modalDestinationImage) {
+            modalDestinationImage.src = '';
+            modalDestinationImage.alt = '';
+        }
+        if (modalRequests) {
+            modalRequests.placeholder = 'Tell us about your dream trip, special occasions, interests, or any specific requirements...';
+        }
+    }
+
+    function handleQuickBooking(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+        
+        // Validate required fields
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                showFieldError(field.closest('.form-group'), field, `${getFieldLabel(field)} is required.`);
+            } else {
+                clearErrors(field);
+            }
+        });
+
+        // Email validation
+        const emailField = form.querySelector('#modalEmail');
+        if (emailField && emailField.value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailField.value)) {
+                isValid = false;
+                showFieldError(emailField.closest('.form-group'), emailField, 'Please enter a valid email address.');
+            }
+        }
+
+        // Date validation
+        const checkinField = form.querySelector('#modalCheckin');
+        if (checkinField && checkinField.value) {
+            const selectedDate = new Date(checkinField.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < today) {
+                isValid = false;
+                showFieldError(checkinField.closest('.form-group'), checkinField, 'Please select a future date.');
+            }
+        }
+
+        if (!isValid) {
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending Request...';
+        submitBtn.disabled = true;
+
+        // Get booking details
+        const destination = document.getElementById('modalDestinationName').textContent;
+        const price = document.getElementById('modalDestinationPrice').textContent;
+        
+        // Prepare booking data
+        const bookingData = {
+            destination: destination,
+            price: price,
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            travelers: formData.get('travelers'),
+            checkin: formData.get('checkin'),
+            duration: formData.get('duration'),
+            budget: formData.get('budget'),
+            requests: formData.get('requests'),
+            timestamp: new Date().toISOString()
+        };
+
+        // Simulate booking submission (replace with actual API call)
+        setTimeout(() => {
+            // Reset button
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+            
+            // Close modal
+            closeBookingModal();
+            
+            // Show success message with booking details
+            const travelerText = bookingData.travelers === '1' ? 'traveler' : 'travelers';
+            const successMessage = `Thank you ${bookingData.name}! Your booking request for ${destination} (${bookingData.travelers} ${travelerText}) has been sent successfully. We'll contact you within 24 hours to finalize your dream trip!`;
+            
+            showNotification(successMessage, 'success');
+            
+            // Optional: Store booking in localStorage for reference
+            const bookings = JSON.parse(localStorage.getItem('travel-bookings') || '[]');
+            bookings.push(bookingData);
+            localStorage.setItem('travel-bookings', JSON.stringify(bookings));
+            
+            // Auto-fill the main contact form if user clicks "Book Now" and then scrolls to contact
+            setTimeout(() => {
+                const mainForm = document.querySelector('.contact-form');
+                if (mainForm) {
+                    const nameField = mainForm.querySelector('#name');
+                    const emailField = mainForm.querySelector('#email');
+                    const phoneField = mainForm.querySelector('#phone');
+                    const messageField = mainForm.querySelector('#message');
+                    
+                    if (nameField && !nameField.value) nameField.value = bookingData.name;
+                    if (emailField && !emailField.value) emailField.value = bookingData.email;
+                    if (phoneField && !phoneField.value && bookingData.phone) phoneField.value = bookingData.phone;
+                    if (messageField && !messageField.value) {
+                        messageField.value = `Hi! I'm interested in booking a trip to ${destination} for ${bookingData.travelers} ${travelerText}. ${bookingData.requests ? 'Additional details: ' + bookingData.requests : ''}`;
+                    }
+                }
+            }, 1000);
+            
+        }, 2000);
+    }
+
+    // Make closeBookingModal globally available for onclick handlers
+    window.closeBookingModal = closeBookingModal;
 
     // Listen for configuration updates from admin panel
     function setupAdminSync() {
