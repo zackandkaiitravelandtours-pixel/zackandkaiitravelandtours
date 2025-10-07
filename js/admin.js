@@ -105,6 +105,14 @@ function loadDefaults() {
             metaDescription: "Professional travel agency services",
             keywords: "travel, vacation, destinations, tours",
             ogImage: "images/og-image.jpg"
+        },
+        emailjs: {
+            serviceID: "",
+            publicKey: "",
+            templates: {
+                inquiry: "",
+                booking: ""
+            }
         }
     };
     populateForm();
@@ -142,6 +150,12 @@ function populateForm() {
     document.getElementById('heroImage').value = config.hero?.backgroundImage || '';
     document.getElementById('button1Text').value = config.hero?.button1Text || '';
     document.getElementById('button2Text').value = config.hero?.button2Text || '';
+
+    // EmailJS Configuration
+    document.getElementById('emailServiceId').value = config.emailjs?.serviceID || '';
+    document.getElementById('emailPublicKey').value = config.emailjs?.publicKey || '';
+    document.getElementById('emailInquiryTemplate').value = config.emailjs?.templates?.inquiry || '';
+    document.getElementById('emailBookingTemplate').value = config.emailjs?.templates?.booking || '';
 
     // Dynamic sections
     populateServices();
@@ -228,34 +242,127 @@ function populateDestinations() {
 }
 
 function createDestinationHTML(destination, index) {
+    const highlights = destination.highlights || [];
+    const included = destination.included || [];
+    const itinerary = destination.itinerary || [];
+    
     return `
         <div class="destination-item" data-index="${index}">
             <div class="item-header">
-                <h4>Destination ${index + 1}</h4>
+                <h4>Destination ${index + 1}: ${destination.name}</h4>
                 <button type="button" class="remove-btn" onclick="removeDestination(${index})">
                     <i class="fas fa-trash"></i> Remove
                 </button>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Destination Name</label>
-                    <input type="text" class="destination-name" value="${destination.name}" placeholder="e.g., Bali, Indonesia">
+            
+            <!-- Basic Information -->
+            <div class="destination-section">
+                <h5><i class="fas fa-info-circle"></i> Basic Information</h5>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Destination Name</label>
+                        <input type="text" class="destination-name" value="${destination.name}" placeholder="e.g., Bali, Indonesia">
+                    </div>
+                    <div class="form-group">
+                        <label>Starting Price</label>
+                        <input type="text" class="destination-price" value="${destination.price}" placeholder="e.g., $999">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <input type="text" class="destination-duration" value="${destination.duration || ''}" placeholder="e.g., 7 Days / 6 Nights">
+                    </div>
+                    <div class="form-group">
+                        <label>Image Path</label>
+                        <input type="text" class="destination-image" value="${destination.image}" placeholder="images/destination-name.jpg">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Starting Price</label>
-                    <input type="text" class="destination-price" value="${destination.price}" placeholder="e.g., $999">
+                    <label>Description</label>
+                    <textarea class="destination-description" placeholder="Brief description of the destination...">${destination.description}</textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Image Path</label>
-                <input type="text" class="destination-image" value="${destination.image}" placeholder="images/destination-name.jpg">
-                <small style="color: #6b7280; display: block; margin-top: 5px;">
-                    💡 Place your image in the 'images' folder and reference it here
-                </small>
+            
+            <!-- Highlights -->
+            <div class="destination-section">
+                <h5><i class="fas fa-star"></i> Highlights</h5>
+                <div class="highlights-container">
+                    ${highlights.map((highlight, hIndex) => `
+                        <div class="highlight-input-group">
+                            <input type="text" class="highlight-input" value="${highlight}" placeholder="e.g., Visit ancient temples">
+                            <button type="button" class="remove-highlight-btn" onclick="removeHighlight(${index}, ${hIndex})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="add-highlight-btn" onclick="addHighlight(${index})">
+                    <i class="fas fa-plus"></i> Add Highlight
+                </button>
+            </div>
+            
+            <!-- What's Included -->
+            <div class="destination-section">
+                <h5><i class="fas fa-check-circle"></i> What's Included</h5>
+                <div class="included-container">
+                    ${included.map((item, iIndex) => `
+                        <div class="included-input-group">
+                            <input type="text" class="included-input" value="${item}" placeholder="e.g., Round-trip flights">
+                            <button type="button" class="remove-included-btn" onclick="removeIncluded(${index}, ${iIndex})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="add-included-btn" onclick="addIncluded(${index})">
+                    <i class="fas fa-plus"></i> Add Included Item
+                </button>
+            </div>
+            
+            <!-- Itinerary -->
+            <div class="destination-section">
+                <h5><i class="fas fa-calendar-alt"></i> Itinerary</h5>
+                <div class="itinerary-container">
+                    ${itinerary.map((day, dayIndex) => createItineraryDayHTML(day, index, dayIndex)).join('')}
+                </div>
+                <button type="button" class="add-day-btn" onclick="addItineraryDay(${index})">
+                    <i class="fas fa-plus"></i> Add Day
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function createItineraryDayHTML(day, destIndex, dayIndex) {
+    const activities = day.activities || [];
+    return `
+        <div class="itinerary-day-item">
+            <div class="itinerary-day-header">
+                <h6>Day ${day.day}</h6>
+                <button type="button" class="remove-day-btn" onclick="removeItineraryDay(${destIndex}, ${dayIndex})">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
             <div class="form-group">
-                <label>Description</label>
-                <textarea class="destination-description" placeholder="Brief description of the destination...">${destination.description}</textarea>
+                <label>Day Title</label>
+                <input type="text" class="day-title" value="${day.title}" placeholder="e.g., Arrival in Paradise">
+            </div>
+            <div class="form-group">
+                <label>Activities</label>
+                <div class="activities-container">
+                    ${activities.map((activity, actIndex) => `
+                        <div class="activity-input-group">
+                            <input type="text" class="activity-input" value="${activity}" placeholder="e.g., Airport pickup">
+                            <button type="button" class="remove-activity-btn" onclick="removeActivity(${destIndex}, ${dayIndex}, ${actIndex})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="add-activity-btn" onclick="addActivity(${destIndex}, ${dayIndex})">
+                    <i class="fas fa-plus"></i> Add Activity
+                </button>
             </div>
         </div>
     `;
@@ -266,7 +373,22 @@ function addDestination() {
         name: "New Destination",
         price: "$999",
         image: "images/new-destination.jpg",
-        description: "Amazing destination description"
+        description: "Amazing destination description",
+        duration: "5 Days / 4 Nights",
+        highlights: ["Beautiful scenery", "Cultural experience", "Adventure activities"],
+        included: ["Round-trip flights", "Hotel accommodation", "Daily breakfast", "Airport transfers"],
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival",
+                activities: ["Airport pickup", "Hotel check-in", "Welcome dinner"]
+            },
+            {
+                day: 2,
+                title: "Exploration Day",
+                activities: ["City tour", "Local attractions", "Traditional lunch"]
+            }
+        ]
     };
     
     if (!config.destinations) {
@@ -276,6 +398,72 @@ function addDestination() {
     config.destinations.push(newDestination);
     populateDestinations();
     showNotification('New destination added! Remember to save your changes.', 'success');
+}
+
+// Highlight management functions
+function addHighlight(destIndex) {
+    if (!config.destinations[destIndex].highlights) {
+        config.destinations[destIndex].highlights = [];
+    }
+    config.destinations[destIndex].highlights.push("New highlight");
+    populateDestinations();
+}
+
+function removeHighlight(destIndex, highlightIndex) {
+    config.destinations[destIndex].highlights.splice(highlightIndex, 1);
+    populateDestinations();
+}
+
+// Included items management functions
+function addIncluded(destIndex) {
+    if (!config.destinations[destIndex].included) {
+        config.destinations[destIndex].included = [];
+    }
+    config.destinations[destIndex].included.push("New included item");
+    populateDestinations();
+}
+
+function removeIncluded(destIndex, includedIndex) {
+    config.destinations[destIndex].included.splice(includedIndex, 1);
+    populateDestinations();
+}
+
+// Itinerary management functions
+function addItineraryDay(destIndex) {
+    if (!config.destinations[destIndex].itinerary) {
+        config.destinations[destIndex].itinerary = [];
+    }
+    
+    const newDay = {
+        day: config.destinations[destIndex].itinerary.length + 1,
+        title: "New Day",
+        activities: ["New activity"]
+    };
+    
+    config.destinations[destIndex].itinerary.push(newDay);
+    populateDestinations();
+}
+
+function removeItineraryDay(destIndex, dayIndex) {
+    config.destinations[destIndex].itinerary.splice(dayIndex, 1);
+    // Renumber the remaining days
+    config.destinations[destIndex].itinerary.forEach((day, index) => {
+        day.day = index + 1;
+    });
+    populateDestinations();
+}
+
+function addActivity(destIndex, dayIndex) {
+    if (!config.destinations[destIndex].itinerary[dayIndex].activities) {
+        config.destinations[destIndex].itinerary[dayIndex].activities = [];
+    }
+    config.destinations[destIndex].itinerary[dayIndex].activities.push("New activity");
+    populateDestinations();
+}
+
+function removeActivity(destIndex, dayIndex, activityIndex) {
+    config.destinations[destIndex].itinerary[dayIndex].activities.splice(activityIndex, 1);
+    populateDestinations();
 }
 
 function removeDestination(index) {
@@ -456,12 +644,39 @@ function collectFormData() {
     config.destinations = [];
     const destinationItems = document.querySelectorAll('.destination-item');
     destinationItems.forEach(item => {
-        config.destinations.push({
+        // Basic info
+        const destination = {
             name: item.querySelector('.destination-name').value,
             price: item.querySelector('.destination-price').value,
             image: item.querySelector('.destination-image').value,
-            description: item.querySelector('.destination-description').value
+            description: item.querySelector('.destination-description').value,
+            duration: item.querySelector('.destination-duration').value || ''
+        };
+        
+        // Highlights
+        const highlightInputs = item.querySelectorAll('.highlight-input');
+        destination.highlights = Array.from(highlightInputs).map(input => input.value).filter(val => val.trim());
+        
+        // Included items
+        const includedInputs = item.querySelectorAll('.included-input');
+        destination.included = Array.from(includedInputs).map(input => input.value).filter(val => val.trim());
+        
+        // Itinerary
+        destination.itinerary = [];
+        const dayItems = item.querySelectorAll('.itinerary-day-item');
+        dayItems.forEach((dayItem, dayIndex) => {
+            const dayTitle = dayItem.querySelector('.day-title').value;
+            const activityInputs = dayItem.querySelectorAll('.activity-input');
+            const activities = Array.from(activityInputs).map(input => input.value).filter(val => val.trim());
+            
+            destination.itinerary.push({
+                day: dayIndex + 1,
+                title: dayTitle,
+                activities: activities
+            });
         });
+        
+        config.destinations.push(destination);
     });
 
     // Testimonials
@@ -476,6 +691,16 @@ function collectFormData() {
             text: item.querySelector('.testimonial-text').value
         });
     });
+
+    // EmailJS Configuration
+    config.emailjs = {
+        serviceID: document.getElementById('emailServiceId').value,
+        publicKey: document.getElementById('emailPublicKey').value,
+        templates: {
+            inquiry: document.getElementById('emailInquiryTemplate').value,
+            booking: document.getElementById('emailBookingTemplate').value
+        }
+    };
 
     // SEO (keep existing or set defaults)
     if (!config.seo) {

@@ -329,20 +329,75 @@
         submitBtn.disabled = true;
         elements.contactForm.classList.add('loading');
 
-        // Simulate form submission (replace with actual API call)
-        setTimeout(() => {
-            // Reset form
-            elements.contactForm.reset();
-            clearAllErrors(elements.contactForm);
-            
-            // Reset button
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-            elements.contactForm.classList.remove('loading');
-            
-            // Show success message
-            showNotification('Thank you! Your inquiry has been sent successfully. We\'ll get back to you soon!', 'success');
-        }, 2000);
+        // Prepare form data
+        const formData = new FormData(elements.contactForm);
+        const inquiryData = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            destination: formData.get('destination'),
+            travelers: formData.get('travelers'),
+            checkin: formData.get('checkin'),
+            checkout: formData.get('checkout'),
+            message: formData.get('message'),
+            timestamp: new Date().toISOString(),
+            type: 'general_inquiry'
+        };
+
+        // Send email using EmailJS (preferred method)
+        sendEmailViaEmailJS(inquiryData)
+            .then(() => {
+                // Reset form
+                elements.contactForm.reset();
+                clearAllErrors(elements.contactForm);
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                elements.contactForm.classList.remove('loading');
+                
+                // Show success message
+                showNotification('Thank you! Your inquiry has been sent successfully. We\'ll get back to you soon!', 'success');
+                
+                // Store inquiry for reference
+                storeInquiry(inquiryData);
+            })
+            .catch((error) => {
+                console.error('EmailJS failed, trying fallback method:', error);
+                
+                // Try fallback method (PHP backend or mailto)
+                sendEmailFallback(inquiryData)
+                    .then(() => {
+                        // Reset form
+                        elements.contactForm.reset();
+                        clearAllErrors(elements.contactForm);
+                        
+                        // Reset button
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        elements.contactForm.classList.remove('loading');
+                        
+                        // Show success message
+                        showNotification('Thank you! Your inquiry has been sent successfully. We\'ll get back to you soon!', 'success');
+                        
+                        // Store inquiry for reference
+                        storeInquiry(inquiryData);
+                    })
+                    .catch((fallbackError) => {
+                        console.error('All email methods failed:', fallbackError);
+                        
+                        // Reset button
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        elements.contactForm.classList.remove('loading');
+                        
+                        // Show error with instructions
+                        showNotification('Email service temporarily unavailable. Your inquiry has been saved. Please try again later or contact us directly.', 'warning');
+                        
+                        // Still store locally for reference
+                        storeInquiry(inquiryData);
+                    });
+            });
     }
 
     function handleNewsletterForm(e) {
@@ -668,6 +723,9 @@
             // Update SEO
             updateSEO();
             
+            // Update footer destinations
+            updateFooterDestinations();
+            
             console.log('Configuration applied successfully');
         } catch (error) {
             console.error('Error applying configuration:', error);
@@ -697,40 +755,64 @@
     function updateCompanyInfo() {
         if (!config.companyInfo) return;
         
-        // Update logo/company name
-        const logoElements = document.querySelectorAll('.logo span');
-        logoElements.forEach(el => {
-            if (config.companyInfo.name) {
-                el.textContent = config.companyInfo.name;
-            }
-        });
-        
-        // Update contact information
-        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
-        phoneLinks.forEach(el => {
-            if (config.companyInfo.phone) {
-                el.href = `tel:${config.companyInfo.phone.replace(/[^\d+]/g, '')}`;
-                el.textContent = config.companyInfo.phone;
-            }
-        });
-        
-        const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
-        emailLinks.forEach(el => {
-            if (config.companyInfo.email) {
-                el.href = `mailto:${config.companyInfo.email}`;
-                el.textContent = config.companyInfo.email;
-            }
-        });
-        
-        // Update address
-        if (config.companyInfo.address) {
-            const addressElements = document.querySelectorAll('.contact-item p');
-            addressElements.forEach(el => {
-                if (el.innerHTML.includes('Street')) {
-                    el.innerHTML = `${config.companyInfo.address.street}<br>${config.companyInfo.address.city}, ${config.companyInfo.address.state} ${config.companyInfo.address.zip}`;
+        // Update logo/company name with header logo support
+        const logoElements = document.querySelectorAll('.logo');
+        logoElements.forEach(logoEl => {
+            const spanElement = logoEl.querySelector('span');
+            
+            if (config.companyInfo.headerLogo && config.companyInfo.headerLogo.type === 'image') {
+                // Replace text with image
+                const existingImg = logoEl.querySelector('.header-logo-img');
+                if (!existingImg) {
+                    const img = document.createElement('img');
+                    img.src = config.companyInfo.headerLogo.imagePath;
+                    img.alt = config.companyInfo.headerLogo.fallbackText || config.companyInfo.name;
+                    img.className = 'header-logo-img';
+                    img.style.height = config.companyInfo.headerLogo.height || '40px';
+                    img.style.width = 'auto';
+                    img.style.maxWidth = '100%';
+                    img.style.objectFit = 'contain';
+                    
+                    // Handle image load error - fallback to text
+                    img.onerror = function() {
+                        console.warn('Header logo image failed to load, using fallback text');
+                        if (spanElement) {
+                            spanElement.textContent = config.companyInfo.headerLogo.fallbackText || config.companyInfo.name;
+                            spanElement.style.display = 'inline';
+                        }
+                        this.style.display = 'none';
+                    };
+                    
+                    // Hide text span when image is used
+                    if (spanElement) {
+                        spanElement.style.display = 'none';
+                    }
+                    
+                    // Insert image after the icon
+                    const icon = logoEl.querySelector('i');
+                    if (icon) {
+                        icon.insertAdjacentElement('afterend', img);
+                    } else {
+                        logoEl.prepend(img);
+                    }
                 }
-            });
-        }
+            } else {
+                // Use text logo
+                if (spanElement && config.companyInfo.name) {
+                    spanElement.textContent = config.companyInfo.name;
+                    spanElement.style.display = 'inline';
+                }
+                
+                // Remove image if it exists
+                const existingImg = logoEl.querySelector('.header-logo-img');
+                if (existingImg) {
+                    existingImg.remove();
+                }
+            }
+        });
+        
+        // Update contact information with proper visibility handling
+        updateContactDetails();
         
         // Update social media links
         if (config.socialMedia) {
@@ -746,6 +828,111 @@
                     socialLinks[platform].href = config.socialMedia[platform];
                 }
             });
+        }
+    }
+
+    // Update contact details with proper visibility handling
+    function updateContactDetails() {
+        if (!config.companyInfo) {
+            // Hide all contact items if no company info
+            const contactItems = document.querySelectorAll('.contact-item');
+            contactItems.forEach(item => {
+                item.style.display = 'none';
+            });
+            return;
+        }
+
+        // Handle Phone Contact
+        const phoneIcon = document.querySelector('i.fa-phone');
+        const phoneContactItem = phoneIcon ? phoneIcon.closest('.contact-item') : null;
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        
+        if (config.companyInfo.phone && config.companyInfo.phone.trim() !== '') {
+            // Show phone contact and update information
+            if (phoneContactItem) phoneContactItem.style.display = 'flex';
+            phoneLinks.forEach(el => {
+                el.href = `tel:${config.companyInfo.phone.replace(/[^\d+]/g, '')}`;
+                el.textContent = config.companyInfo.phone;
+            });
+        } else {
+            // Hide phone contact if no phone number
+            if (phoneContactItem) phoneContactItem.style.display = 'none';
+        }
+
+        // Handle Email Contact
+        const emailIcon = document.querySelector('i.fa-envelope');
+        const emailContactItem = emailIcon ? emailIcon.closest('.contact-item') : null;
+        const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+        
+        if (config.companyInfo.email && config.companyInfo.email.trim() !== '') {
+            // Show email contact and update information
+            if (emailContactItem) emailContactItem.style.display = 'flex';
+            emailLinks.forEach(el => {
+                el.href = `mailto:${config.companyInfo.email}`;
+                el.textContent = config.companyInfo.email;
+            });
+        } else {
+            // Hide email contact if no email
+            if (emailContactItem) emailContactItem.style.display = 'none';
+        }
+
+        // Handle Address Contact
+        const addressIcon = document.querySelector('i.fa-map-marker-alt');
+        const addressContactItem = addressIcon ? addressIcon.closest('.contact-item') : null;
+        
+        if (config.companyInfo.address && 
+            config.companyInfo.address.street && 
+            config.companyInfo.address.city && 
+            config.companyInfo.address.state) {
+            
+            // Show address contact and update information
+            if (addressContactItem) {
+                addressContactItem.style.display = 'flex';
+                const addressP = addressContactItem.querySelector('p');
+                if (addressP) {
+                    let addressText = config.companyInfo.address.street;
+                    let cityLine = config.companyInfo.address.city;
+                    
+                    if (config.companyInfo.address.state) {
+                        cityLine += `, ${config.companyInfo.address.state}`;
+                    }
+                    if (config.companyInfo.address.zip) {
+                        cityLine += ` ${config.companyInfo.address.zip}`;
+                    }
+                    
+                    addressP.innerHTML = `${addressText}<br>${cityLine}`;
+                }
+            }
+        } else {
+            // Hide address contact if insufficient address info
+            if (addressContactItem) addressContactItem.style.display = 'none';
+        }
+
+        // Update structured data if present
+        const structuredData = document.querySelector('script[type="application/ld+json"]');
+        if (structuredData && config.companyInfo) {
+            try {
+                const data = JSON.parse(structuredData.textContent);
+                if (config.companyInfo.name) data.name = config.companyInfo.name;
+                if (config.companyInfo.phone) data.telephone = config.companyInfo.phone;
+                if (config.companyInfo.email) data.email = config.companyInfo.email;
+                if (config.companyInfo.website) data.url = config.companyInfo.website;
+                
+                if (config.companyInfo.address) {
+                    data.address = {
+                        "@type": "PostalAddress",
+                        "streetAddress": config.companyInfo.address.street || "",
+                        "addressLocality": config.companyInfo.address.city || "",
+                        "addressRegion": config.companyInfo.address.state || "",
+                        "postalCode": config.companyInfo.address.zip || "",
+                        "addressCountry": config.companyInfo.address.country || "US"
+                    };
+                }
+                
+                structuredData.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.warn('Could not update structured data:', error);
+            }
         }
     }
 
@@ -913,6 +1100,47 @@
         }
     }
 
+    // Update footer destinations
+    function updateFooterDestinations() {
+        if (!config.destinations || !Array.isArray(config.destinations)) return;
+        
+        const footerDestinations = document.getElementById('footerDestinations');
+        if (!footerDestinations) return;
+        
+        footerDestinations.innerHTML = '';
+        
+        // Show up to 5 destinations in footer
+        const destinationsToShow = config.destinations.slice(0, 5);
+        
+        destinationsToShow.forEach(destination => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            
+            link.href = '#destinations';
+            link.textContent = destination.name;
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                // First scroll to destinations section
+                const destinationsSection = document.getElementById('destinations');
+                if (destinationsSection) {
+                    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+                    window.scrollTo({
+                        top: destinationsSection.offsetTop - headerHeight - 20,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Then open the destination modal after a short delay
+                    setTimeout(() => {
+                        openDestinationModal(destination.name);
+                    }, 800);
+                }
+            });
+            
+            listItem.appendChild(link);
+            footerDestinations.appendChild(listItem);
+        });
+    }
+
     // Booking Modal Functionality
     function setupBookingModal() {
         // Handle Book Now button clicks
@@ -921,6 +1149,23 @@
                 e.preventDefault();
                 const bookBtn = e.target.classList.contains('book-now-btn') ? e.target : e.target.closest('.book-now-btn');
                 openBookingModal(bookBtn);
+            }
+            
+            // Handle destination card clicks (but not book now buttons)
+            if (e.target.closest('.destination-card') && !e.target.closest('.book-now-btn')) {
+                e.preventDefault();
+                const destinationCard = e.target.closest('.destination-card');
+                const destinationName = destinationCard.querySelector('.destination-title').textContent;
+                openDestinationModal(destinationName);
+            }
+            
+            // Handle destination modal book button
+            if (e.target.id === 'destModalBookBtn') {
+                e.preventDefault();
+                closeDestinationModal();
+                setTimeout(() => {
+                    openBookingModal(e.target);
+                }, 300);
             }
         });
 
@@ -939,16 +1184,32 @@
                 }
             });
         }
+        
+        const destinationModal = document.getElementById('destinationModal');
+        if (destinationModal) {
+            destinationModal.addEventListener('click', function(e) {
+                if (e.target === destinationModal) {
+                    closeDestinationModal();
+                }
+            });
+        }
 
         // Close modal with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                const modal = document.getElementById('bookingModal');
-                if (modal && modal.style.display !== 'none') {
+                const bookingModal = document.getElementById('bookingModal');
+                const destinationModal = document.getElementById('destinationModal');
+                
+                if (bookingModal && bookingModal.style.display !== 'none') {
                     closeBookingModal();
+                } else if (destinationModal && destinationModal.style.display !== 'none') {
+                    closeDestinationModal();
                 }
             }
         });
+        
+        // Handle destination modal tabs
+        setupDestinationTabs();
     }
 
     function openBookingModal(bookBtn) {
@@ -1098,49 +1359,334 @@
             timestamp: new Date().toISOString()
         };
 
-        // Simulate booking submission (replace with actual API call)
-        setTimeout(() => {
-            // Reset button
-            submitBtn.innerHTML = originalHTML;
-            submitBtn.disabled = false;
-            
-            // Close modal
-            closeBookingModal();
-            
-            // Show success message with booking details
-            const travelerText = bookingData.travelers === '1' ? 'traveler' : 'travelers';
-            const successMessage = `Thank you ${bookingData.name}! Your booking request for ${destination} (${bookingData.travelers} ${travelerText}) has been sent successfully. We'll contact you within 24 hours to finalize your dream trip!`;
-            
-            showNotification(successMessage, 'success');
-            
-            // Optional: Store booking in localStorage for reference
-            const bookings = JSON.parse(localStorage.getItem('travel-bookings') || '[]');
-            bookings.push(bookingData);
-            localStorage.setItem('travel-bookings', JSON.stringify(bookings));
-            
-            // Auto-fill the main contact form if user clicks "Book Now" and then scrolls to contact
-            setTimeout(() => {
-                const mainForm = document.querySelector('.contact-form');
-                if (mainForm) {
-                    const nameField = mainForm.querySelector('#name');
-                    const emailField = mainForm.querySelector('#email');
-                    const phoneField = mainForm.querySelector('#phone');
-                    const messageField = mainForm.querySelector('#message');
-                    
-                    if (nameField && !nameField.value) nameField.value = bookingData.name;
-                    if (emailField && !emailField.value) emailField.value = bookingData.email;
-                    if (phoneField && !phoneField.value && bookingData.phone) phoneField.value = bookingData.phone;
-                    if (messageField && !messageField.value) {
-                        messageField.value = `Hi! I'm interested in booking a trip to ${destination} for ${bookingData.travelers} ${travelerText}. ${bookingData.requests ? 'Additional details: ' + bookingData.requests : ''}`;
+        // Add booking type identifier
+        bookingData.type = 'booking_request';
+
+        // Send booking email
+        sendEmailViaEmailJS(bookingData)
+            .then(() => {
+                // Reset button
+                submitBtn.innerHTML = originalHTML;
+                submitBtn.disabled = false;
+                
+                // Close modal
+                closeBookingModal();
+                
+                // Show success message with booking details
+                const travelerText = bookingData.travelers === '1' ? 'traveler' : 'travelers';
+                const successMessage = `Thank you ${bookingData.name}! Your booking request for ${destination} (${bookingData.travelers} ${travelerText}) has been sent successfully. We'll contact you within 24 hours to finalize your dream trip!`;
+                
+                showNotification(successMessage, 'success');
+                
+                // Store booking for reference
+                storeInquiry(bookingData);
+                
+                // Auto-fill the main contact form if user clicks "Book Now" and then scrolls to contact
+                setTimeout(() => {
+                    const mainForm = document.querySelector('.contact-form');
+                    if (mainForm) {
+                        const nameField = mainForm.querySelector('#name');
+                        const emailField = mainForm.querySelector('#email');
+                        const phoneField = mainForm.querySelector('#phone');
+                        const messageField = mainForm.querySelector('#message');
+                        
+                        if (nameField && !nameField.value) nameField.value = bookingData.name;
+                        if (emailField && !emailField.value) emailField.value = bookingData.email;
+                        if (phoneField && !phoneField.value && bookingData.phone) phoneField.value = bookingData.phone;
+                        if (messageField && !messageField.value) {
+                            messageField.value = `Hi! I'm interested in booking a trip to ${destination} for ${bookingData.travelers} ${travelerText}. ${bookingData.requests ? 'Additional details: ' + bookingData.requests : ''}`;
+                        }
                     }
-                }
-            }, 1000);
-            
-        }, 2000);
+                }, 1000);
+            })
+            .catch((error) => {
+                console.error('Booking email failed, trying fallback:', error);
+                
+                // Try fallback method
+                sendEmailFallback(bookingData)
+                    .then(() => {
+                        // Reset button
+                        submitBtn.innerHTML = originalHTML;
+                        submitBtn.disabled = false;
+                        
+                        // Close modal
+                        closeBookingModal();
+                        
+                        // Show success message
+                        const travelerText = bookingData.travelers === '1' ? 'traveler' : 'travelers';
+                        const successMessage = `Thank you ${bookingData.name}! Your booking request has been sent. We'll contact you within 24 hours!`;
+                        
+                        showNotification(successMessage, 'success');
+                        storeInquiry(bookingData);
+                    })
+                    .catch((fallbackError) => {
+                        console.error('All booking email methods failed:', fallbackError);
+                        
+                        // Reset button
+                        submitBtn.innerHTML = originalHTML;
+                        submitBtn.disabled = false;
+                        
+                        // Don't close modal, show error
+                        showNotification('Email service temporarily unavailable. Your booking request has been saved. Please try again later or contact us directly.', 'warning');
+                        storeInquiry(bookingData);
+                    });
+            });
     }
 
-    // Make closeBookingModal globally available for onclick handlers
+    // Destination Modal Functionality
+    function openDestinationModal(destinationName) {
+        const modal = document.getElementById('destinationModal');
+        if (!modal) return;
+
+        // Find destination data
+        const destination = config.destinations ? config.destinations.find(dest => dest.name === destinationName) : null;
+        
+        if (!destination) {
+            console.error('Destination not found:', destinationName);
+            return;
+        }
+
+        // Update modal content
+        updateDestinationModalContent(destination);
+        
+        // Show modal
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Show first tab by default
+        showDestinationTab('itinerary');
+    }
+
+    function updateDestinationModalContent(destination) {
+        // Update hero section
+        const modalImage = document.getElementById('destModalImage');
+        const modalName = document.getElementById('destModalName');
+        const modalDescription = document.getElementById('destModalDescription');
+        const modalDuration = document.getElementById('destModalDuration');
+        const modalPrice = document.getElementById('destModalPrice');
+
+        if (modalImage) modalImage.src = destination.image || '';
+        if (modalName) modalName.textContent = destination.name || '';
+        if (modalDescription) modalDescription.textContent = destination.description || '';
+        if (modalDuration) modalDuration.innerHTML = `<i class="fas fa-clock"></i> ${destination.duration || 'Duration not specified'}`;
+        if (modalPrice) modalPrice.innerHTML = `<i class="fas fa-tag"></i> Starting from ${destination.price || 'Contact for pricing'}`;
+
+        // Update book button
+        const bookBtn = document.getElementById('destModalBookBtn');
+        if (bookBtn) {
+            bookBtn.setAttribute('data-destination', destination.name || '');
+            bookBtn.setAttribute('data-price', destination.price || '');
+            bookBtn.setAttribute('data-image', destination.image || '');
+        }
+
+        // Update itinerary
+        updateItineraryTab(destination.itinerary || []);
+        
+        // Update highlights
+        updateHighlightsTab(destination.highlights || []);
+        
+        // Update included items
+        updateIncludedTab(destination.included || []);
+    }
+
+    function updateItineraryTab(itinerary) {
+        const container = document.getElementById('itineraryContainer');
+        if (!container) return;
+
+        container.innerHTML = '';
+        
+        if (itinerary.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No itinerary information available.</p>';
+            return;
+        }
+
+        itinerary.forEach(day => {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'itinerary-day';
+            
+            const activitiesHTML = day.activities ? day.activities.map(activity => 
+                `<div class="itinerary-activity">${activity}</div>`
+            ).join('') : '';
+
+            dayElement.innerHTML = `
+                <div class="itinerary-day-header">
+                    <div class="day-number">${day.day}</div>
+                    <h3 class="day-title">${day.title}</h3>
+                </div>
+                <div class="itinerary-activities">
+                    ${activitiesHTML}
+                </div>
+            `;
+            
+            container.appendChild(dayElement);
+        });
+    }
+
+    function updateHighlightsTab(highlights) {
+        const container = document.getElementById('highlightsContainer');
+        if (!container) return;
+
+        container.innerHTML = '';
+        
+        if (highlights.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No highlights information available.</p>';
+            return;
+        }
+
+        // Icon mapping for different types of highlights
+        const highlightIcons = {
+            'temple': '🏛️',
+            'ancient': '🏛️',
+            'culture': '🎭',
+            'cultural': '🎭',
+            'beach': '🏖️',
+            'sand': '🏖️',
+            'water': '💧',
+            'ocean': '🌊',
+            'sea': '🌊',
+            'mountain': '⛰️',
+            'volcano': '🌋',
+            'forest': '🌲',
+            'nature': '🌿',
+            'wildlife': '🦋',
+            'food': '🍽️',
+            'cooking': '👨‍🍳',
+            'cuisine': '🍽️',
+            'restaurant': '🍽️',
+            'dining': '🍽️',
+            'spa': '🧘‍♀️',
+            'massage': '💆‍♀️',
+            'relaxation': '🧘‍♀️',
+            'adventure': '🎢',
+            'tour': '🚌',
+            'sightseeing': '👁️',
+            'museum': '🏛️',
+            'art': '🎨',
+            'sunset': '🌅',
+            'sunrise': '🌄',
+            'night': '🌙',
+            'market': '🛒',
+            'shopping': '🛍️',
+            'dance': '💃',
+            'music': '🎵',
+            'festival': '🎉',
+            'ceremony': '🎊',
+            'boat': '⛵',
+            'cruise': '🛥️',
+            'dive': '🤿',
+            'snorkel': '🤿',
+            'swim': '🏊‍♀️',
+            'church': '⛪',
+            'mosque': '🕌',
+            'garden': '🌺',
+            'park': '🌳',
+            'wine': '🍷',
+            'tasting': '🍷',
+            'vineyard': '🍇',
+            'hotel': '🏨',
+            'resort': '🏖️',
+            'luxury': '💎',
+            'palace': '🏰',
+            'castle': '🏰',
+            'default': '✨'
+        };
+
+        function getIconForHighlight(highlight) {
+            const lowerHighlight = highlight.toLowerCase();
+            for (const [keyword, icon] of Object.entries(highlightIcons)) {
+                if (lowerHighlight.includes(keyword)) {
+                    return icon;
+                }
+            }
+            return highlightIcons.default;
+        }
+
+        highlights.forEach((highlight, index) => {
+            const highlightElement = document.createElement('div');
+            highlightElement.className = 'highlight-item';
+            
+            const icon = document.createElement('div');
+            icon.className = 'highlight-icon';
+            icon.textContent = getIconForHighlight(highlight);
+            
+            const text = document.createElement('div');
+            text.className = 'highlight-text';
+            text.textContent = highlight;
+            
+            highlightElement.appendChild(icon);
+            highlightElement.appendChild(text);
+            
+            // Add staggered animation delay
+            highlightElement.style.animationDelay = `${index * 0.1}s`;
+            
+            container.appendChild(highlightElement);
+        });
+    }
+
+    function updateIncludedTab(included) {
+        const container = document.getElementById('includedContainer');
+        if (!container) return;
+
+        container.innerHTML = '';
+        
+        if (included.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No included items information available.</p>';
+            return;
+        }
+
+        included.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'included-item';
+            itemElement.textContent = item;
+            container.appendChild(itemElement);
+        });
+    }
+
+    function setupDestinationTabs() {
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('tab-btn')) {
+                const tabName = e.target.getAttribute('data-tab');
+                showDestinationTab(tabName);
+                
+                // Update active tab button
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+            }
+        });
+    }
+
+    function showDestinationTab(tabName) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.style.display = 'none';
+        });
+        
+        // Show selected tab
+        const selectedTab = document.getElementById(`${tabName}-tab`);
+        if (selectedTab) {
+            selectedTab.style.display = 'block';
+        }
+        
+        // Update active button
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-tab') === tabName) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    function closeDestinationModal() {
+        const modal = document.getElementById('destinationModal');
+        if (!modal) return;
+
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    // Make functions globally available for onclick handlers
     window.closeBookingModal = closeBookingModal;
+    window.closeDestinationModal = closeDestinationModal;
 
     // Listen for configuration updates from admin panel
     function setupAdminSync() {
@@ -1175,14 +1721,264 @@
         enhancedInit();
     }
 
-    // Expose some functions globally for debugging (development only)
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-        window.TravelAgency = {
-            showNotification,
-            validateForm,
-            throttle,
-            debounce
+    // Email Sending Functions
+    async function sendEmailViaEmailJS(data) {
+        // Check if EmailJS is available
+        if (typeof emailjs === 'undefined') {
+            throw new Error('EmailJS not loaded');
+        }
+
+        // Get EmailJS configuration from config
+        const EMAIL_CONFIG = config?.emailjs || {};
+
+        // Validate configuration
+        if (!EMAIL_CONFIG.serviceID || !EMAIL_CONFIG.publicKey) {
+            throw new Error('Email service configuration error - check config.json');
+        }
+
+        const serviceID = EMAIL_CONFIG.serviceID;
+        const templateID = data.type === 'booking_request' ? EMAIL_CONFIG.templates.booking : EMAIL_CONFIG.templates.inquiry;
+        const publicKey = EMAIL_CONFIG.publicKey;
+
+        // Prepare template parameters
+        const templateParams = {
+            to_name: 'Travel Agency Admin',
+            from_name: data.name,
+            from_email: data.email,
+            phone: data.phone || 'Not provided',
+            subject: data.type === 'booking_request' ? `Booking Request: ${data.destination}` : 'New Travel Inquiry',
+            message: formatEmailMessage(data),
+            reply_to: data.email,
+            timestamp: new Date(data.timestamp).toLocaleString()
+        };
+
+        try {
+            const result = await emailjs.send(serviceID, templateID, templateParams, publicKey);
+            console.log('✅ EmailJS Success:', result);
+            return result;
+        } catch (error) {
+            console.error('Email sending failed:', error);
+            throw error;
+        }
+    }
+
+    async function sendEmailFallback(data) {
+        // Method 1: Try PHP backend if available
+        try {
+            const response = await fetch('send-email.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                return await response.json();
+            } else {
+                throw new Error('PHP backend not available');
+            }
+        } catch (error) {
+            console.log('PHP backend not available, trying mailto fallback');
+        }
+
+        // Method 2: Fallback to mailto (opens user's email client)
+        return new Promise((resolve, reject) => {
+            try {
+                const adminEmail = config.companyInfo?.email || 'admin@wanderlust-travel.com';
+                const subject = encodeURIComponent(data.type === 'booking_request' ? `Booking Request: ${data.destination}` : 'New Travel Inquiry');
+                const body = encodeURIComponent(formatEmailMessage(data));
+                
+                const mailtoLink = `mailto:${adminEmail}?subject=${subject}&body=${body}`;
+                
+                // Create a temporary link and click it
+                const tempLink = document.createElement('a');
+                tempLink.href = mailtoLink;
+                tempLink.style.display = 'none';
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+                
+                // Show user instructions
+                setTimeout(() => {
+                    showNotification('Your email client should open with a pre-filled message. Please send the email to complete your inquiry.', 'info');
+                }, 1000);
+                
+                resolve({ method: 'mailto', success: true });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    function formatEmailMessage(data) {
+        if (data.type === 'booking_request') {
+            return `
+BOOKING REQUEST DETAILS
+========================
+
+Customer Information:
+- Name: ${data.name}
+- Email: ${data.email}
+- Phone: ${data.phone || 'Not provided'}
+
+Travel Details:
+- Destination: ${data.destination}
+- Number of Travelers: ${data.travelers}
+- Preferred Departure: ${data.checkin || 'Not specified'}
+- Trip Duration: ${data.duration || 'Not specified'}
+- Budget Range: ${data.budget || 'Not specified'}
+- Price Range: ${data.price || 'Not specified'}
+
+Special Requests:
+${data.requests || 'None'}
+
+Timestamp: ${new Date(data.timestamp).toLocaleString()}
+
+Please contact the customer within 24 hours to finalize their booking.
+
+---
+This booking request was submitted through the travel agency website.
+            `.trim();
+        } else {
+            return `
+TRAVEL INQUIRY DETAILS
+======================
+
+Customer Information:
+- Name: ${data.name}
+- Email: ${data.email}
+- Phone: ${data.phone || 'Not provided'}
+
+Travel Preferences:
+- Interested Destination: ${data.destination || 'Not specified'}
+- Number of Travelers: ${data.travelers || 'Not specified'}
+- Check-in Date: ${data.checkin || 'Not specified'}
+- Check-out Date: ${data.checkout || 'Not specified'}
+
+Message:
+${data.message || 'None'}
+
+Timestamp: ${new Date(data.timestamp).toLocaleString()}
+
+Please respond to this inquiry as soon as possible.
+
+---
+This inquiry was submitted through the travel agency website contact form.
+            `.trim();
+        }
+    }
+
+    function storeInquiry(data) {
+        try {
+            const inquiries = JSON.parse(localStorage.getItem('travel-inquiries') || '[]');
+            inquiries.push(data);
+            
+            // Keep only the latest 50 inquiries
+            if (inquiries.length > 50) {
+                inquiries.splice(0, inquiries.length - 50);
+            }
+            
+            localStorage.setItem('travel-inquiries', JSON.stringify(inquiries));
+            console.log('Inquiry stored locally for reference');
+        } catch (error) {
+            console.error('Error storing inquiry:', error);
+        }
+    }
+
+    // Admin notification system (for website owners)
+    function setupAdminNotifications() {
+        // Production version - admin features removed for security
+        return;
+    }
+
+    function showInquiriesPanel() {
+        const inquiries = JSON.parse(localStorage.getItem('travel-inquiries') || '[]');
+        
+        if (inquiries.length === 0) {
+            showNotification('No inquiries found.', 'info');
+            return;
+        }
+
+        // Create modal to show inquiries
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        `;
+
+        const content = document.createElement('div');
+        content.style.cssText = `
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+        `;
+
+        let inquiriesHTML = '<h2>Recent Inquiries</h2>';
+        inquiries.slice(-10).reverse().forEach((inquiry, index) => {
+            const date = new Date(inquiry.timestamp).toLocaleString();
+            const type = inquiry.type === 'booking_request' ? 'Booking Request' : 'General Inquiry';
+            
+            inquiriesHTML += `
+                <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; margin: 10px 0;">
+                    <h3 style="margin: 0 0 10px 0; color: #2563eb;">${type} - ${inquiry.name}</h3>
+                    <p><strong>Email:</strong> ${inquiry.email}</p>
+                    <p><strong>Phone:</strong> ${inquiry.phone || 'Not provided'}</p>
+                    ${inquiry.destination ? `<p><strong>Destination:</strong> ${inquiry.destination}</p>` : ''}
+                    ${inquiry.travelers ? `<p><strong>Travelers:</strong> ${inquiry.travelers}</p>` : ''}
+                    <p><strong>Date:</strong> ${date}</p>
+                    <p><strong>Message:</strong><br>${inquiry.message || inquiry.requests || 'None'}</p>
+                    <button onclick="copyInquiry(${index})" style="background: #10b981; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 10px;">Copy Details</button>
+                </div>
+            `;
+        });
+
+        inquiriesHTML += `
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="this.closest('.inquiries-modal').remove()" style="background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Close</button>
+                <button onclick="clearInquiries()" style="background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-left: 10px;">Clear All</button>
+            </div>
+        `;
+
+        content.innerHTML = inquiriesHTML;
+        modal.appendChild(content);
+        modal.className = 'inquiries-modal';
+        document.body.appendChild(modal);
+
+        // Global functions for the modal
+        window.copyInquiry = (index) => {
+            const inquiry = inquiries.slice(-10).reverse()[index];
+            const text = formatEmailMessage(inquiry);
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Inquiry details copied to clipboard!', 'success');
+            });
+        };
+
+        window.clearInquiries = () => {
+            localStorage.removeItem('travel-inquiries');
+            modal.remove();
+            showNotification('All inquiries cleared.', 'success');
         };
     }
+
+    // Initialize admin features
+    setupAdminNotifications();
+
+
+
+
 
 })();

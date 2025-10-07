@@ -26,11 +26,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
+    <!-- Favicon - Custom Header Image -->
+    <link rel="icon" type="image/png" href="images/header-image.png">
+    <link rel="apple-touch-icon" href="images/header-image.png">
+    <link rel="shortcut icon" href="images/header-image.png">
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- EmailJS for sending emails -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
@@ -220,6 +228,456 @@
             }
             
             .modal-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* Destination Details Modal Styles */
+        .destination-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .destination-modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            animation: modalSlideIn 0.4s ease;
+            position: relative;
+        }
+        
+        .destination-modal-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        
+        .destination-modal-close {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .destination-modal-close:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .destination-modal-body {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .destination-hero {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .destination-hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .destination-hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 40px 30px 30px;
+            color: white;
+        }
+        
+        .destination-hero-content h2 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+        
+        .destination-hero-content p {
+            font-size: 1.2rem;
+            margin: 0 0 15px 0;
+            opacity: 0.9;
+        }
+        
+        .destination-meta {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .destination-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .destination-meta .price {
+            color: #f59e0b;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .destination-details-content {
+            padding: 30px;
+        }
+        
+        .destination-tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 25px;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+        
+        .tab-btn:hover {
+            color: #2563eb;
+            background: #f8fafc;
+        }
+        
+        .tab-content {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .itinerary-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .itinerary-day {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #2563eb;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .itinerary-day:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
+        }
+        
+        .itinerary-day-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .day-number {
+            background: #2563eb;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .day-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+        
+        .itinerary-activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .itinerary-activity {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            font-size: 0.95rem;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .itinerary-activity::before {
+            content: \"•\";
+            color: #2563eb;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 10px 0;
+        }
+        
+        .highlight-item {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .highlight-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .highlight-item:hover::before {
+            animation: shimmer 0.6s ease-in-out;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+        
+        .highlight-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
+        }
+        
+        .highlight-item:nth-child(odd) {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+        
+        .highlight-item:nth-child(odd):hover {
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+        }
+        
+        .highlight-item:nth-child(3n) {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+        
+        .highlight-item:nth-child(3n):hover {
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+        }
+        
+        .highlight-item:nth-child(4n) {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+        
+        .highlight-item:nth-child(4n):hover {
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+        }
+        
+        .highlight-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .highlight-item:hover .highlight-icon {
+            animation: bounce 0.6s ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0px); }
+            25% { transform: translateY(-10px); }
+            50% { transform: translateY(-5px); }
+            75% { transform: translateY(-8px); }
+        }
+        
+        .highlight-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            line-height: 1.3;
+        }
+        
+        .highlight-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .included-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .included-item {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #166534;
+            font-weight: 500;
+        }
+        
+        .included-item::before {
+            content: \"✓\";
+            background: #10b981;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .destination-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        @media (max-width: 768px) {
+            .destination-modal {
+                padding: 10px;
+            }
+            
+            .destination-modal-content {
+                max-height: 95vh;
+            }
+            
+            .destination-hero {
+                height: 200px;
+            }
+            
+            .destination-hero-content h2 {
+                font-size: 2rem;
+            }
+            
+            .destination-details-content {
+                padding: 20px;
+            }
+            
+            .destination-tabs {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            
+            .destination-meta {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .itinerary-activities {
+                grid-template-columns: 1fr;
+            }
+            
+            .highlights-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .included-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .destination-actions {
                 flex-direction: column;
             }
         }
@@ -855,6 +1313,63 @@
         </div>
     </div>
 
+    <!-- Destination Details Modal -->
+    <div id="destinationModal" class="destination-modal" style="display: none;">
+        <div class="destination-modal-content">
+            <div class="destination-modal-header">
+                <button class="destination-modal-close" onclick="closeDestinationModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="destination-modal-body">
+                <div class="destination-hero">
+                    <img id="destModalImage" src="" alt="" class="destination-hero-image">
+                    <div class="destination-hero-overlay">
+                        <div class="destination-hero-content">
+                            <h2 id="destModalName">Destination Name</h2>
+                            <p id="destModalDescription">Destination description</p>
+                            <div class="destination-meta">
+                                <span id="destModalDuration" class="duration"><i class="fas fa-clock"></i> Duration</span>
+                                <span id="destModalPrice" class="price"><i class="fas fa-tag"></i> Price</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-details-content">
+                    <div class="destination-tabs">
+                        <button class="tab-btn active" data-tab="itinerary">Itinerary</button>
+                        <button class="tab-btn" data-tab="highlights">Highlights</button>
+                        <button class="tab-btn" data-tab="included">What's Included</button>
+                    </div>
+                    
+                    <div class="tab-content" id="itinerary-tab">
+                        <div class="itinerary-container" id="itineraryContainer">
+                            <!-- Itinerary will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="highlights-tab" style="display: none;">
+                        <div class="highlights-grid" id="highlightsContainer">
+                            <!-- Highlights will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="included-tab" style="display: none;">
+                        <div class="included-list" id="includedContainer">
+                            <!-- Included items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="destination-actions">
+                        <button class="btn btn-outline" onclick="closeDestinationModal()">Close</button>
+                        <button class="btn btn-primary" id="destModalBookBtn" data-destination="" data-price="" data-image="">Book This Trip</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
         <div class="container">
@@ -882,12 +1397,8 @@
                 
                 <div class="footer-section">
                     <h3 class="footer-title">Destinations</h3>
-                    <ul class="footer-links">
-                        <li><a href="#destinations">Bali, Indonesia</a></li>
-                        <li><a href="#destinations">Santorini, Greece</a></li>
-                        <li><a href="#destinations">Maldives</a></li>
-                        <li><a href="#destinations">Tokyo, Japan</a></li>
-                        <li><a href="#destinations">Paris, France</a></li>
+                    <ul class="footer-links" id="footerDestinations">
+                        <!-- Destinations will be populated by JavaScript from config.json -->
                     </ul>
                 </div>
                 
@@ -939,5 +1450,13 @@
 
     <!-- JavaScript -->
     <script src="js/script.js"></script>
+    
+    <!-- EmailJS Initialization (Replace YOUR_PUBLIC_KEY with your actual EmailJS public key) -->
+    <script type="text/javascript">
+        // Initialize EmailJS when the library is loaded
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init('876HVDkWSODpa173B'); // Replace with your EmailJS public key
+        }
+    </script>
 </body>
 </html>
