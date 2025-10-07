@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency - Website Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: #2563eb;
+            background: white;
+            border-bottom: 3px solid #2563eb;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 15px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .form-section h3 {
+            color: #1e293b;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .color-input {
+            height: 50px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .actions {
+            text-align: center;
+            padding: 30px;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #10b981;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #ef4444;
+        }
+
+        .service-item, .destination-item, .testimonial-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .item-header h4 {
+            color: #1e293b;
+            font-size: 1.1rem;
+        }
+
+        .remove-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+        }
+
+        .add-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        .add-btn:hover {
+            background: #059669;
+        }
+
+        .preview-link {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #f59e0b;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .preview-link:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .instructions {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .instructions h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #1e40af;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-edit"></i> Website Content Editor</h1>
+            <p>Easily customize your travel agency website without touching any code!</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('company')">
+                <i class="fas fa-building"></i> Company Info
+            </button>
+            <button class="tab" onclick="showTab('design')">
+                <i class="fas fa-palette"></i> Design & Colors
+            </button>
+            <button class="tab" onclick="showTab('hero')">
+                <i class="fas fa-image"></i> Home Page
+            </button>
+            <button class="tab" onclick="showTab('services')">
+                <i class="fas fa-concierge-bell"></i> Services
+            </button>
+            <button class="tab" onclick="showTab('destinations')">
+                <i class="fas fa-map-marked-alt"></i> Destinations
+            </button>
+            <button class="tab" onclick="showTab('testimonials')">
+                <i class="fas fa-star"></i> Testimonials
+            </button>
+        </div>
+
+        <!-- Company Info Tab -->
+        <div id="company" class="tab-content active">
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> Company Information</h3>
+                <p>Update your business details, contact information, and social media links. This information appears throughout your website.</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Basic Information</h3>
+                <div class="form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" id="companyName" placeholder="e.g., Wanderlust Travel Agency">
+                </div>
+                <div class="form-group">
+                    <label for="tagline">Tagline</label>
+                    <input type="text" id="tagline" placeholder="e.g., Your Dream Vacation Awaits">
+                </div>
+                <div class="form-group">
+                    <label for="description">Company Description</label>
+                    <textarea id="description" placeholder="Brief description of your travel agency..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Contact Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" placeholder="e.g., +1 (555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="e.g., info@youragency.com">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Street Address</label>
+                    <input type="text" id="address" placeholder="e.g., 123 Main Street">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" placeholder="e.g., New York">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" placeholder="e.g., NY">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zip">ZIP Code</label>
+                        <input type="text" id="zip" placeholder="e.g., 10001">
+                    </div>
+                    <div class="form-group">
+                        <label for="website">Website URL</label>
+                        <input type="url" id="website" placeholder="e.g., https://youragency.com">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Social Media Links</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="facebook">Facebook</label>
+                        <input type="url" id="facebook" placeholder="https://facebook.com/yourpage">
+                    </div>
+                    <div class="form-group">
+                        <label for="instagram">Instagram</label>
+                        <input type="url" id="instagram" placeholder="https://instagram.com/yourpage">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="twitter">Twitter</label>
+                        <input type="url" id="twitter" placeholder="https://twitter.com/yourpage">
+                    </div>
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn</label>
+                        <input type="url" id="linkedin" placeholder="https://linkedin.com/company/yourcompany">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Tab -->
+        <div id="design" class="tab-content">
+            <div class="instructions">
+                <h3><i class="fas fa-palette"></i> Design & Colors</h3>
+                <p>Customize your website's appearance by choosing colors that match your brand. The changes will be applied throughout your entire website.</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Color Scheme</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="primaryColor">Primary Color (Main brand color)</label>
+                        <input type="color" id="primaryColor" class="color-input" value="#2563eb">
+                    </div>
+                    <div class="form-group">
+                        <label for="secondaryColor">Secondary Color (Accent color)</label>
+                        <input type="color" id="secondaryColor" class="color-input" value="#f59e0b">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="accentColor">Accent Color (Additional highlights)</label>
+                    <input type="color" id="accentColor" class="color-input" value="#06b6d4">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Typography</h3>
+                <div class="form-group">
+                    <label for="fontFamily">Font Family</label>
+                    <select id="fontFamily">
+                        <option value="Poppins">Poppins (Modern & Clean)</option>
+                        <option value="Open Sans">Open Sans (Professional)</option>
+                        <option value="Roboto">Roboto (Tech-friendly)</option>
+                        <option value="Lato">Lato (Elegant)</option>
+                        <option value="Montserrat">Montserrat (Bold & Modern)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Tab -->
+        <div id="hero" class="tab-content">
+            <div class="instructions">
+                <h3><i class="fas fa-image"></i> Home Page Hero Section</h3>
+                <p>This is the first thing visitors see. Make it compelling with a great headline, description, and call-to-action buttons.</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Hero Content</h3>
+                <div class="form-group">
+                    <label for="heroTitle">Main Headline</label>
+                    <input type="text" id="heroTitle" placeholder="e.g., Your Dream Vacation Awaits">
+                </div>
+                <div class="form-group">
+                    <label for="heroSubtitle">Subtitle/Description</label>
+                    <textarea id="heroSubtitle" placeholder="Compelling description that encourages visitors to take action..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="button1Text">First Button Text</label>
+                        <input type="text" id="button1Text" placeholder="e.g., Explore Destinations">
+                    </div>
+                    <div class="form-group">
+                        <label for="button2Text">Second Button Text</label>
+                        <input type="text" id="button2Text" placeholder="e.g., Plan My Trip">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="heroImage">Background Image</label>
+                    <input type="text" id="heroImage" placeholder="images/hero-bg.jpg (Place your image in the images folder)">
+                    <small style="color: #6b7280; display: block; margin-top: 5px;">
+                        💡 Tip: Use high-quality landscape images (1920x1080px recommended)
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Tab -->
+        <div id="services" class="tab-content">
+            <div class="instructions">
+                <h3><i class="fas fa-concierge-bell"></i> Services</h3>
+                <p>Add or modify the services you offer. Each service should have an icon, title, and description.</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Your Services</h3>
+                <div id="servicesList"></div>
+                <button type="button" class="add-btn" onclick="addService()">
+                    <i class="fas fa-plus"></i> Add New Service
+                </button>
+            </div>
+        </div>
+
+        <!-- Destinations Tab -->
+        <div id="destinations" class="tab-content">
+            <div class="instructions">
+                <h3><i class="fas fa-map-marked-alt"></i> Destinations</h3>
+                <p>Showcase your popular travel destinations with images, names, and starting prices.</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Popular Destinations</h3>
+                <div id="destinationsList"></div>
+                <button type="button" class="add-btn" onclick="addDestination()">
+                    <i class="fas fa-plus"></i> Add New Destination
+                </button>
+            </div>
+        </div>
+
+        <!-- Testimonials Tab -->
+        <div id="testimonials" class="tab-content">
+            <div class="instructions">
+                <h3><i class="fas fa-star"></i> Customer Testimonials</h3>
+                <p>Add reviews from happy customers to build trust and credibility.</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Customer Reviews</h3>
+                <div id="testimonialsList"></div>
+                <button type="button" class="add-btn" onclick="addTestimonial()">
+                    <i class="fas fa-plus"></i> Add New Testimonial
+                </button>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-success" onclick="saveChanges()">
+                <i class="fas fa-save"></i> Save All Changes
+            </button>
+            <button class="btn btn-secondary" onclick="loadConfig()">
+                <i class="fas fa-refresh"></i> Reset to Current
+            </button>
+            <a href="index.html" target="_blank" class="btn">
+                <i class="fas fa-eye"></i> Preview Website
+            </a>
+        </div>
+    </div>
+
+    <a href="index.html" target="_blank" class="preview-link">
+        <i class="fas fa-external-link-alt"></i> Preview Site
+    </a>
+
+    <script src="js/admin.js"></script>
+    <script src="js/admin-enhanced.js"></script>
+</body>
+</html>

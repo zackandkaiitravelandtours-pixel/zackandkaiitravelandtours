@@ -1,0 +1,134 @@
+{
+  "companyInfo": {
+    "name": "Zack and Kaii Travel and Tours",
+    "tagline": "Your Adventure Partners",
+    "description": "Discover breathtaking destinations and create unforgettable memories with Zack and Kaii's personalized travel planning services.",
+    "phone": "+1 (555) TRAVEL",
+    "email": "info@zackandkaiitravelandtours.com",
+    "address": {
+      "street": "123 Travel Street",
+      "city": "Adventure City",
+      "state": "AC",
+      "zip": "12345",
+      "country": "US"
+    },
+    "website": "https://zackandkaiitravelandtours.com"
+  },
+  "theme": {
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#f59e0b",
+    "accentColor": "#06b6d4",
+    "fontFamily": "Poppins"
+  },
+  "hero": {
+    "title": "Adventure Awaits with Zack and Kaii",
+    "subtitle": "Let us be your personal travel guides to the world's most amazing destinations. We make your dream trips a reality.",
+    "backgroundImage": "images/hero-bg.jpg",
+    "button1Text": "Explore Destinations",
+    "button2Text": "Plan My Trip"
+  },
+  "services": [
+    {
+      "icon": "fas fa-plane",
+      "title": "Flight Booking",
+      "description": "Find the best deals on flights to your dream destination with our extensive airline partnerships."
+    },
+    {
+      "icon": "fas fa-hotel",
+      "title": "Hotel Reservations",
+      "description": "From luxury resorts to budget-friendly stays, we'll find the perfect accommodation for you."
+    },
+    {
+      "icon": "fas fa-map-marked-alt",
+      "title": "Tour Packages",
+      "description": "Customized tour packages with guided experiences and local insights."
+    },
+    {
+      "icon": "fas fa-car",
+      "title": "Car Rentals",
+      "description": "Convenient car rental services to explore your destination at your own pace."
+    },
+    {
+      "icon": "fas fa-umbrella-beach",
+      "title": "Vacation Packages",
+      "description": "All-inclusive vacation packages tailored to your preferences and budget."
+    },
+    {
+      "icon": "fas fa-headset",
+      "title": "24/7 Support",
+      "description": "Round-the-clock customer support to assist you throughout your journey."
+    }
+  ],
+  "destinations": [
+    {
+      "name": "Bali, Indonesia",
+      "price": "$899",
+      "image": "images/destination-bali.jpg",
+      "description": "Tropical paradise with ancient temples"
+    },
+    {
+      "name": "Santorini, Greece",
+      "price": "$1,299",
+      "image": "images/destination-santorini.jpg",
+      "description": "Beautiful white buildings overlooking the sea"
+    },
+    {
+      "name": "Maldives",
+      "price": "$1,799",
+      "image": "images/destination-maldives.jpg",
+      "description": "Crystal clear waters and overwater bungalows"
+    },
+    {
+      "name": "Tokyo, Japan",
+      "price": "$1,099",
+      "image": "images/destination-tokyo.jpg",
+      "description": "Modern city with traditional culture"
+    },
+    {
+      "name": "Paris, France",
+      "price": "$1,199",
+      "image": "images/destination-paris.jpg",
+      "description": "Eiffel Tower and romantic cityscape"
+    },
+    {
+      "name": "Dubai, UAE",
+      "price": "$999",
+      "image": "images/destination-dubai.jpg",
+      "description": "Luxury and modern architecture"
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Sarah Johnson",
+      "location": "Los Angeles, CA",
+      "image": "images/testimonial-sarah.jpg",
+      "rating": 5,
+      "text": "Zack and Kaii made our honeymoon in Bali absolutely perfect. Every detail was taken care of, and we couldn't have asked for a better experience!"
+    },
+    {
+      "name": "Michael Chen",
+      "location": "New York, NY",
+      "image": "images/testimonial-michael.jpg",
+      "rating": 5,
+      "text": "Zack and Kaii went above and beyond to create our dream European vacation. Professional, friendly, and incredibly knowledgeable!"
+    },
+    {
+      "name": "Emily Rodriguez",
+      "location": "Miami, FL",
+      "image": "images/testimonial-emily.jpg",
+      "rating": 5,
+      "text": "Amazing service! They helped us plan a family trip to Japan that exceeded all our expectations. We'll definitely be booking with them again."
+    }
+  ],
+  "socialMedia": {
+    "facebook": "https://facebook.com/zackandkaiitravelandtours",
+    "instagram": "https://instagram.com/zackandkaiitravelandtours",
+    "twitter": "https://twitter.com/zackandkaitravel",
+    "linkedin": "https://linkedin.com/company/zack-and-kaii-travel-tours"
+  },
+  "seo": {
+    "metaDescription": "Discover amazing travel destinations with Zack and Kaii Travel and Tours. Book your dream vacation with our personalized travel planning services.",
+    "keywords": "travel agency, vacation packages, travel planning, destinations, tours, flights, hotels",
+    "ogImage": "images/og-image.jpg"
+  }
+}
