@@ -1,15 +1,15 @@
 {
   "companyInfo": {
     "name": "Zack and Kaii Travel and Tours",
-    "tagline": "Your Adventure Partners",
+    "tagline": "Your gateway to unforgettable adventures 🌍",
     "description": "Discover breathtaking destinations and create unforgettable memories with Zack and Kaii's personalized travel planning services.",
-    "phone": "+1 (555) TRAVEL",
-    "email": "info@zackandkaiitravelandtours.com",
+    "phone": "+63 917 186 8230",
+    "email": "zackandkaiitravelandtours@gmail.com",
     "address": {
-      "street": "123 Travel Street",
-      "city": "Adventure City",
-      "state": "AC",
-      "zip": "12345",
+      "street": "215 Brgy Cigaras ",
+      "city": "Magdalena",
+      "state": "Laguna",
+      "zip": "4007",
       "country": "US"
     },
     "website": "https://zackandkaiitravelandtours.com"
@@ -21,9 +21,9 @@
     "fontFamily": "Poppins"
   },
   "hero": {
-    "title": "Adventure Awaits with Zack and Kaii",
+    "title": "Adventure Awaits with Zack and Kaii Travel and Tours!",
     "subtitle": "Let us be your personal travel guides to the world's most amazing destinations. We make your dream trips a reality.",
-    "backgroundImage": "images/hero-bg.jpg",
+    "backgroundImage": "https://drive.google.com/file/d/1044bnIrS3Eei3RuP3Wlg6SCu3CFAf_UI/view",
     "button1Text": "Explore Destinations",
     "button2Text": "Plan My Trip"
   },
@@ -99,32 +99,32 @@
   ],
   "testimonials": [
     {
-      "name": "Sarah Johnson",
-      "location": "Los Angeles, CA",
+      "name": "Eric Hernandez",
+      "location": "Philippines",
       "image": "images/testimonial-sarah.jpg",
       "rating": 5,
-      "text": "Zack and Kaii made our honeymoon in Bali absolutely perfect. Every detail was taken care of, and we couldn't have asked for a better experience!"
+      "text": "The BKK-Pattaya tour arranged by Zach and Kaii travel tours is very well-organized and detailed. The drivers are very friendly, despite of language barrier their translator app is effective making the tour a hassle-free. All of the tour spots are worth going especially the Temple of Truth."
     },
     {
-      "name": "Michael Chen",
-      "location": "New York, NY",
+      "name": "Jhester Sta Ana",
+      "location": "Philippines",
       "image": "images/testimonial-michael.jpg",
       "rating": 5,
-      "text": "Zack and Kaii went above and beyond to create our dream European vacation. Professional, friendly, and incredibly knowledgeable!"
+      "text": "Absolutely loved the 3-day Paris Essence Tour with Zack & Kaii Travel and Tours! The blend of iconic sights like the Eiffel Tower and Louvre, paired with sustainable touches like the solar-powered Seine cruise, made it unforgettable. The crepe-making workshop was a delightful highlight, and the eco-conscious guides added such depth. Perfect for all ages—highly recommend!\n"
     },
     {
-      "name": "Emily Rodriguez",
-      "location": "Miami, FL",
+      "name": "Janwell Merana",
+      "location": "Philippines",
       "image": "images/testimonial-emily.jpg",
       "rating": 5,
       "text": "Amazing service! They helped us plan a family trip to Japan that exceeded all our expectations. We'll definitely be booking with them again."
     }
   ],
   "socialMedia": {
-    "facebook": "https://facebook.com/zackandkaiitravelandtours",
-    "instagram": "https://instagram.com/zackandkaiitravelandtours",
-    "twitter": "https://twitter.com/zackandkaitravel",
-    "linkedin": "https://linkedin.com/company/zack-and-kaii-travel-tours"
+    "facebook": "https://www.facebook.com/profile.php?id=61579161278312",
+    "instagram": "https://www.instagram.com/zackandkaii/",
+    "twitter": "",
+    "linkedin": ""
   },
   "seo": {
     "metaDescription": "Discover amazing travel destinations with Zack and Kaii Travel and Tours. Book your dream vacation with our personalized travel planning services.",
