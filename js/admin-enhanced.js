@@ -660,6 +660,18 @@ function removeService(index) {
 // Destinations functions
 function populateDestinations() {
     const destinationsList = document.getElementById('destinationsList');
+    
+    // Store current expanded states before regenerating
+    const expandedStates = {};
+    const existingDestinations = destinationsList.querySelectorAll('.destination-item');
+    existingDestinations.forEach((item, destIndex) => {
+        const sections = item.querySelectorAll('.destination-section-content');
+        expandedStates[destIndex] = {};
+        sections.forEach((section, sectionIndex) => {
+            expandedStates[destIndex][sectionIndex] = section.classList.contains('expanded');
+        });
+    });
+    
     destinationsList.innerHTML = '';
     
     if (config.destinations && config.destinations.length > 0) {
@@ -668,6 +680,12 @@ function populateDestinations() {
             destinationsList.insertAdjacentHTML('beforeend', destinationHTML);
         });
     }
+    
+    // Restore expanded states after a short delay to ensure DOM is updated
+    setTimeout(() => {
+        restoreExpandedStates(expandedStates);
+        initializeDestinationSections();
+    }, 50);
 }
 
 function createDestinationHTML(destination, index) {
@@ -686,78 +704,98 @@ function createDestinationHTML(destination, index) {
             
             <!-- Basic Information -->
             <div class="destination-section">
-                <h5><i class="fas fa-info-circle"></i> Basic Information</h5>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Destination Name</label>
-                        <input type="text" class="destination-name" value="${destination.name}" placeholder="e.g., Bali, Indonesia">
+                <h5 onclick="toggleDestinationSection(this)">
+                    <i class="fas fa-info-circle"></i> Basic Information
+                    <i class="fas fa-chevron-down collapse-icon collapsed"></i>
+                </h5>
+                <div class="destination-section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Destination Name</label>
+                            <input type="text" class="destination-name" value="${destination.name}" placeholder="e.g., Bali, Indonesia">
+                        </div>
+                        <div class="form-group">
+                            <label>Starting Price</label>
+                            <input type="text" class="destination-price" value="${destination.price}" placeholder="e.g., $999">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Duration</label>
+                            <input type="text" class="destination-duration" value="${destination.duration || ''}" placeholder="e.g., 7 Days / 6 Nights">
+                        </div>
+                        <div class="form-group">
+                            <label>Image Path</label>
+                            <input type="text" class="destination-image" value="${destination.image}" placeholder="images/destination-name.jpg">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Starting Price</label>
-                        <input type="text" class="destination-price" value="${destination.price}" placeholder="e.g., $999">
+                        <label>Description</label>
+                        <textarea class="destination-description" placeholder="Brief description of the destination...">${destination.description}</textarea>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Duration</label>
-                        <input type="text" class="destination-duration" value="${destination.duration || ''}" placeholder="e.g., 7 Days / 6 Nights">
-                    </div>
-                    <div class="form-group">
-                        <label>Image Path</label>
-                        <input type="text" class="destination-image" value="${destination.image}" placeholder="images/destination-name.jpg">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="destination-description" placeholder="Brief description of the destination...">${destination.description}</textarea>
                 </div>
             </div>
             
             <!-- Highlights -->
             <div class="destination-section">
-                <h5><i class="fas fa-star"></i> Highlights</h5>
-                <div class="highlights-container">
-                    ${highlights.map((highlight, hIndex) => `
-                        <div class="highlight-input-group">
-                            <input type="text" class="highlight-input" value="${highlight}" placeholder="e.g., Visit ancient temples">
-                            <button type="button" class="remove-highlight-btn" onclick="removeHighlight(${index}, ${hIndex})">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    `).join('')}
+                <h5 onclick="toggleDestinationSection(this)">
+                    <i class="fas fa-star"></i> Highlights
+                    <i class="fas fa-chevron-down collapse-icon collapsed"></i>
+                </h5>
+                <div class="destination-section-content">
+                    <div class="highlights-container">
+                        ${highlights.map((highlight, hIndex) => `
+                            <div class="highlight-input-group">
+                                <input type="text" class="highlight-input" value="${highlight}" placeholder="e.g., Visit ancient temples">
+                                <button type="button" class="remove-highlight-btn" onclick="removeHighlight(${index}, ${hIndex})">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button type="button" class="add-highlight-btn" onclick="addHighlight(${index})">
+                        <i class="fas fa-plus"></i> Add Highlight
+                    </button>
                 </div>
-                <button type="button" class="add-highlight-btn" onclick="addHighlight(${index})">
-                    <i class="fas fa-plus"></i> Add Highlight
-                </button>
             </div>
             
             <!-- What's Included -->
             <div class="destination-section">
-                <h5><i class="fas fa-check-circle"></i> What's Included</h5>
-                <div class="included-container">
-                    ${included.map((item, iIndex) => `
-                        <div class="included-input-group">
-                            <input type="text" class="included-input" value="${item}" placeholder="e.g., Round-trip flights">
-                            <button type="button" class="remove-included-btn" onclick="removeIncluded(${index}, ${iIndex})">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    `).join('')}
+                <h5 onclick="toggleDestinationSection(this)">
+                    <i class="fas fa-check-circle"></i> What's Included
+                    <i class="fas fa-chevron-down collapse-icon collapsed"></i>
+                </h5>
+                <div class="destination-section-content">
+                    <div class="included-container">
+                        ${included.map((item, iIndex) => `
+                            <div class="included-input-group">
+                                <input type="text" class="included-input" value="${item}" placeholder="e.g., Round-trip flights">
+                                <button type="button" class="remove-included-btn" onclick="removeIncluded(${index}, ${iIndex})">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button type="button" class="add-included-btn" onclick="addIncluded(${index})">
+                        <i class="fas fa-plus"></i> Add Included Item
+                    </button>
                 </div>
-                <button type="button" class="add-included-btn" onclick="addIncluded(${index})">
-                    <i class="fas fa-plus"></i> Add Included Item
-                </button>
             </div>
             
             <!-- Itinerary -->
             <div class="destination-section">
-                <h5><i class="fas fa-calendar-alt"></i> Itinerary</h5>
-                <div class="itinerary-container">
-                    ${itinerary.map((day, dayIndex) => createItineraryDayHTML(day, index, dayIndex)).join('')}
+                <h5 onclick="toggleDestinationSection(this)">
+                    <i class="fas fa-calendar-alt"></i> Itinerary
+                    <i class="fas fa-chevron-down collapse-icon collapsed"></i>
+                </h5>
+                <div class="destination-section-content">
+                    <div class="itinerary-container">
+                        ${itinerary.map((day, dayIndex) => createItineraryDayHTML(day, index, dayIndex)).join('')}
+                    </div>
+                    <button type="button" class="add-day-btn" onclick="addItineraryDay(${index})">
+                        <i class="fas fa-plus"></i> Add Day
+                    </button>
                 </div>
-                <button type="button" class="add-day-btn" onclick="addItineraryDay(${index})">
-                    <i class="fas fa-plus"></i> Add Day
-                </button>
             </div>
         </div>
     `;
@@ -835,12 +873,33 @@ function addHighlight(destIndex) {
         config.destinations[destIndex].highlights = [];
     }
     config.destinations[destIndex].highlights.push("New highlight");
-    populateDestinations();
+    
+    // Regenerate this destination while preserving expanded states
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 function removeHighlight(destIndex, highlightIndex) {
     config.destinations[destIndex].highlights.splice(highlightIndex, 1);
-    populateDestinations();
+    // Regenerate only this destination to fix indices
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 // Included items management functions
@@ -849,12 +908,33 @@ function addIncluded(destIndex) {
         config.destinations[destIndex].included = [];
     }
     config.destinations[destIndex].included.push("New included item");
-    populateDestinations();
+    
+    // Regenerate this destination while preserving expanded states
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 function removeIncluded(destIndex, includedIndex) {
     config.destinations[destIndex].included.splice(includedIndex, 1);
-    populateDestinations();
+    // Regenerate only this destination to fix indices
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 // Itinerary management functions
@@ -870,7 +950,18 @@ function addItineraryDay(destIndex) {
     };
     
     config.destinations[destIndex].itinerary.push(newDay);
-    populateDestinations();
+    
+    // Regenerate only this destination to add the new day
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 function removeItineraryDay(destIndex, dayIndex) {
@@ -879,7 +970,18 @@ function removeItineraryDay(destIndex, dayIndex) {
     config.destinations[destIndex].itinerary.forEach((day, index) => {
         day.day = index + 1;
     });
-    populateDestinations();
+    
+    // Regenerate only this destination
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 function addActivity(destIndex, dayIndex) {
@@ -887,12 +989,34 @@ function addActivity(destIndex, dayIndex) {
         config.destinations[destIndex].itinerary[dayIndex].activities = [];
     }
     config.destinations[destIndex].itinerary[dayIndex].activities.push("New activity");
-    populateDestinations();
+    
+    // Regenerate this destination while preserving expanded states
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 function removeActivity(destIndex, dayIndex, activityIndex) {
     config.destinations[destIndex].itinerary[dayIndex].activities.splice(activityIndex, 1);
-    populateDestinations();
+    
+    // Regenerate only this destination to fix indices
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    const wasExpanded = getExpandedStatesForDestination(destinationItem);
+    
+    const destinationHTML = createDestinationHTML(config.destinations[destIndex], destIndex);
+    destinationItem.outerHTML = destinationHTML;
+    
+    // Restore expanded states
+    setTimeout(() => {
+        restoreExpandedStatesForDestination(destIndex, wasExpanded);
+    }, 10);
 }
 
 function removeDestination(index) {
@@ -983,6 +1107,176 @@ function removeTestimonial(index) {
         populateTestimonials();
         showNotification('Testimonial removed! Remember to save your changes.', 'success');
     }
+}
+
+// Destination section toggle functionality
+function toggleDestinationSection(headerElement) {
+    const section = headerElement.parentElement;
+    const content = section.querySelector('.destination-section-content');
+    const icon = headerElement.querySelector('.collapse-icon');
+    
+    // Prevent multiple rapid clicks
+    if (content.dataset.transitioning === 'true') {
+        return;
+    }
+    
+    content.dataset.transitioning = 'true';
+    
+    if (content.classList.contains('expanded')) {
+        // Collapse
+        content.style.maxHeight = content.scrollHeight + 'px';
+        
+        requestAnimationFrame(() => {
+            content.classList.remove('expanded');
+            icon.classList.add('collapsed');
+            content.style.maxHeight = '0px';
+            
+            setTimeout(() => {
+                content.dataset.transitioning = 'false';
+            }, 300);
+        });
+    } else {
+        // Expand
+        content.classList.add('expanded');
+        icon.classList.remove('collapsed');
+        
+        // Get the actual height needed
+        const targetHeight = content.scrollHeight;
+        content.style.maxHeight = targetHeight + 'px';
+        
+        // After transition, allow natural height
+        setTimeout(() => {
+            if (content.classList.contains('expanded')) {
+                content.style.maxHeight = 'none';
+            }
+            content.dataset.transitioning = 'false';
+        }, 300);
+    }
+}
+
+// Restore expanded states after regenerating destinations
+function restoreExpandedStates(expandedStates) {
+    const destinationItems = document.querySelectorAll('.destination-item');
+    destinationItems.forEach((item, destIndex) => {
+        if (expandedStates[destIndex]) {
+            const sections = item.querySelectorAll('.destination-section-content');
+            const icons = item.querySelectorAll('.collapse-icon');
+            
+            sections.forEach((section, sectionIndex) => {
+                if (expandedStates[destIndex][sectionIndex]) {
+                    section.classList.add('expanded');
+                    section.style.maxHeight = section.scrollHeight + 'px';
+                    if (icons[sectionIndex]) {
+                        icons[sectionIndex].classList.remove('collapsed');
+                    }
+                }
+            });
+        }
+    });
+}
+
+// Get expanded states for a single destination
+function getExpandedStatesForDestination(destinationItem) {
+    const sections = destinationItem.querySelectorAll('.destination-section-content');
+    const states = {};
+    sections.forEach((section, sectionIndex) => {
+        states[sectionIndex] = section.classList.contains('expanded');
+    });
+    return states;
+}
+
+// Restore expanded states for a single destination
+function restoreExpandedStatesForDestination(destIndex, expandedStates) {
+    const destinationItem = document.querySelector(`.destination-item[data-index="${destIndex}"]`);
+    if (destinationItem && expandedStates) {
+        const sections = destinationItem.querySelectorAll('.destination-section-content');
+        const icons = destinationItem.querySelectorAll('.collapse-icon');
+        
+        sections.forEach((section, sectionIndex) => {
+            if (expandedStates[sectionIndex]) {
+                // First add the expanded class to get proper styling
+                section.classList.add('expanded');
+                if (icons[sectionIndex]) {
+                    icons[sectionIndex].classList.remove('collapsed');
+                }
+                
+                // Force a reflow to ensure the expanded class styles are applied
+                section.offsetHeight;
+                
+                // Then set the height
+                const actualHeight = section.scrollHeight;
+                section.style.maxHeight = actualHeight + 'px';
+                
+                // After a short delay, allow natural expansion
+                setTimeout(() => {
+                    if (section.classList.contains('expanded')) {
+                        section.style.maxHeight = 'none';
+                    }
+                }, 350);
+            }
+        });
+    }
+}
+
+// Initialize destination sections with proper heights
+function initializeDestinationSections() {
+    // Since sections start collapsed by default, no initialization needed
+    // Just ensure no conflicting inline styles exist
+    const contents = document.querySelectorAll('.destination-section-content');
+    contents.forEach(content => {
+        if (!content.classList.contains('expanded')) {
+            content.style.maxHeight = '';
+        }
+    });
+}
+
+// Expand all destination sections
+function expandAllDestinationSections() {
+    const allSections = document.querySelectorAll('.destination-section-content');
+    const allIcons = document.querySelectorAll('.destination-section .collapse-icon');
+    
+    allSections.forEach(content => {
+        if (!content.classList.contains('expanded')) {
+            content.classList.add('expanded');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            
+            // Remove inline style after transition
+            setTimeout(() => {
+                if (content.classList.contains('expanded')) {
+                    content.style.maxHeight = '';
+                }
+            }, 400);
+        }
+    });
+    
+    allIcons.forEach(icon => {
+        icon.classList.remove('collapsed');
+    });
+    
+    showNotification('All destination sections expanded', 'success', 2000);
+}
+
+// Collapse all destination sections
+function collapseAllDestinationSections() {
+    const allSections = document.querySelectorAll('.destination-section-content');
+    const allIcons = document.querySelectorAll('.destination-section .collapse-icon');
+    
+    allSections.forEach(content => {
+        if (content.classList.contains('expanded')) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            
+            requestAnimationFrame(() => {
+                content.classList.remove('expanded');
+                content.style.maxHeight = '0px';
+            });
+        }
+    });
+    
+    allIcons.forEach(icon => {
+        icon.classList.add('collapsed');
+    });
+    
+    showNotification('All destination sections collapsed', 'success', 2000);
 }
 
 // Notification system

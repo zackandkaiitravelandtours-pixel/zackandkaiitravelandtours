@@ -402,6 +402,40 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+        .destination-section h5:hover {
+            color: #2563eb;
+        }
+
+        .destination-section h5 .collapse-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            color: #6b7280;
+        }
+
+        .destination-section h5 .collapse-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .destination-section-content {
+            transition: max-height 0.3s ease-out, 
+                       opacity 0.25s ease-out,
+                       padding 0.3s ease-out;
+            overflow: hidden;
+            opacity: 0;
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .destination-section-content.expanded {
+            opacity: 1;
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
         
         .highlight-input-group,
@@ -755,7 +789,15 @@
         <div id="destinations" class="tab-content">
             <div class="instructions">
                 <h3><i class="fas fa-map-marked-alt"></i> Destinations</h3>
-                <p>Showcase your popular travel destinations with images, names, and starting prices.</p>
+                <p>Showcase your popular travel destinations with images, names, and starting prices. Click on section headers to expand/collapse for easier navigation.</p>
+                <div style="margin-top: 15px;">
+                    <button type="button" class="btn btn-secondary" onclick="expandAllDestinationSections()" style="margin-right: 10px; padding: 8px 16px; font-size: 14px;">
+                        <i class="fas fa-expand-alt"></i> Expand All
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="collapseAllDestinationSections()" style="padding: 8px 16px; font-size: 14px;">
+                        <i class="fas fa-compress-alt"></i> Collapse All
+                    </button>
+                </div>
             </div>
 
             <div class="form-section">
