@@ -13,6 +13,8 @@ function detectGitHubPages() {
 document.addEventListener('DOMContentLoaded', function() {
     detectGitHubPages();
     setupGitHubIntegration();
+    checkForSharedConfig();
+    setupWebsiteSync();
     loadConfig();
 });
 
@@ -66,9 +68,12 @@ function setupGitHubIntegration() {
 
 function addGitHubUI() {
     const actionsDiv = document.querySelector('.actions');
-    if (actionsDiv) {
+    
+    // Check if GitHub section already exists to prevent duplicates
+    if (actionsDiv && !document.querySelector('.github-pages-section')) {
         // Add GitHub-specific buttons
         const githubSection = document.createElement('div');
+        githubSection.className = 'github-pages-section'; // Add identifier class
         githubSection.innerHTML = `
             <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 10px; padding: 20px; margin: 20px 0;">
                 <h3 style="color: #0369a1; margin-bottom: 15px;">
@@ -318,14 +323,7 @@ function setupWebsiteSync() {
     });
 }
 
-// Enhanced initialization
-document.addEventListener('DOMContentLoaded', function() {
-    detectGitHubPages();
-    setupGitHubIntegration();
-    checkForSharedConfig();
-    setupWebsiteSync();
-    loadConfig();
-});
+// Enhanced initialization (merged with main initialization)
 
 // Tab functionality
 function showTab(tabName) {

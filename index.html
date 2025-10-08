@@ -7,6 +7,11 @@
     <meta name="keywords" content="travel agency, vacation packages, travel planning, destinations, tours, flights, hotels">
     <meta name="author" content="Wanderlust Travel Agency">
     
+    <!-- Cache Control Meta Tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Wanderlust Travel Agency - Your Dream Vacation Awaits">
     <meta property="og:description" content="Discover amazing travel destinations with professional travel planning services.">
@@ -40,8 +45,20 @@
     <!-- EmailJS for sending emails -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- Custom CSS with cache busting -->
+    <link rel="stylesheet" href="css/styles.css?v=<?php echo time(); ?>">
+    <script>
+        // Add cache busting to CSS if PHP is not available
+        document.addEventListener('DOMContentLoaded', function() {
+            const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
+            const timestamp = new Date().getTime();
+            cssLinks.forEach(link => {
+                if (link.href.includes('css/styles.css') && !link.href.includes('?v=')) {
+                    link.href = link.href.replace('css/styles.css', `css/styles.css?v=${timestamp}`);
+                }
+            });
+        });
+    </script>
     
     <!-- Modal Styles -->
     <style>
@@ -1448,8 +1465,120 @@
         <i class="fas fa-chevron-up" aria-hidden="true"></i>
     </button>
 
-    <!-- JavaScript -->
-    <script src="js/script.js"></script>
+    <!-- Cache Busting and Storage Clearing Script -->
+    <script>
+        // Force cache refresh and clear storage on page load
+        (function() {
+            'use strict';
+            
+            // Clear localStorage and sessionStorage for fresh data
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+                console.log('Browser storage cleared for fresh content load');
+            } catch (e) {
+                console.warn('Could not clear browser storage:', e);
+            }
+            
+            // Add cache-busting timestamp
+            const timestamp = new Date().getTime();
+            
+            // Function to add cache-busting parameter to images
+            function bustImageCache() {
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    if (img.src && !img.src.includes('?')) {
+                        img.src = img.src + '?v=' + timestamp;
+                    }
+                });
+            }
+            
+            // Function to add cache-busting to background images
+            function bustBackgroundImageCache() {
+                const elements = document.querySelectorAll('*');
+                elements.forEach(el => {
+                    const style = window.getComputedStyle(el);
+                    if (style.backgroundImage && style.backgroundImage !== 'none') {
+                        const bgImage = style.backgroundImage;
+                        const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+                        if (match && match[1] && !match[1].includes('?')) {
+                            el.style.backgroundImage = `url(${match[1]}?v=${timestamp})`;
+                        }
+                    }
+                });
+            }
+            
+            // Apply cache busting when DOM is loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(() => {
+                        bustImageCache();
+                        bustBackgroundImageCache();
+                    }, 100);
+                });
+            } else {
+                setTimeout(() => {
+                    bustImageCache();
+                    bustBackgroundImageCache();
+                }, 100);
+            }
+            
+            // Force reload if user manually refreshes (Ctrl+F5 or Cmd+Shift+R equivalent)
+            window.addEventListener('beforeunload', function() {
+                // Clear cache-related storage before page unload
+                try {
+                    localStorage.removeItem('travel-agency-cache');
+                    sessionStorage.clear();
+                } catch (e) {
+                    console.warn('Could not clear cache storage:', e);
+                }
+            });
+            
+            // Add cache-busting to dynamically loaded content
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(function(node) {
+                            if (node.nodeType === 1) { // Element node
+                                // Check for new images
+                                const newImages = node.querySelectorAll ? node.querySelectorAll('img') : [];
+                                newImages.forEach(img => {
+                                    if (img.src && !img.src.includes('?v=')) {
+                                        img.src = img.src + '?v=' + timestamp;
+                                    }
+                                });
+                                
+                                // Check if the added node itself is an image
+                                if (node.tagName === 'IMG' && node.src && !node.src.includes('?v=')) {
+                                    node.src = node.src + '?v=' + timestamp;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Start observing changes to the document
+            observer.observe(document.body || document.documentElement, {
+                childList: true,
+                subtree: true
+            });
+            
+            console.log('Cache busting initialized with timestamp:', timestamp);
+        })();
+    </script>
+
+    <!-- JavaScript with cache busting -->
+    <script>
+        // Load script.js with cache busting
+        const scriptTimestamp = new Date().getTime();
+        const script = document.createElement('script');
+        script.src = `js/script.js?v=${scriptTimestamp}`;
+        script.onload = function() {
+            console.log('Script loaded with cache busting timestamp:', scriptTimestamp);
+        };
+        document.head.appendChild(script);
+    </script>
     
     <!-- EmailJS Initialization (Replace YOUR_PUBLIC_KEY with your actual EmailJS public key) -->
     <script type="text/javascript">
