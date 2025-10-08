@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover amazing travel destinations with Wanderlust Travel Agency. Book your dream vacation with our expert travel planning services.">
+    <meta name="description" content="">
     <meta name="keywords" content="travel agency, vacation packages, travel planning, destinations, tours, flights, hotels">
-    <meta name="author" content="Wanderlust Travel Agency">
+    <meta name="author" content="">
     
     <!-- Cache Control Meta Tags -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -16,7 +16,7 @@
     <meta property="og:title" content="Wanderlust Travel Agency - Your Dream Vacation Awaits">
     <meta property="og:description" content="Discover amazing travel destinations with professional travel planning services.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://wanderlust-travel.com">
+    <meta property="og:url" content="">
     <meta property="og:image" content="images/hero-image.jpg">
     
     <!-- Twitter Card Meta Tags -->
@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Your dream vacation awaits. Professional travel planning services.">
     <meta name="twitter:image" content="images/hero-image.jpg">
     
-    <title>Wanderlust Travel Agency - Your Dream Vacation Awaits</title>
+    <title>Loading...</title>
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -727,9 +727,8 @@
         <nav class="navbar" role="navigation" aria-label="Main navigation">
             <div class="container">
                 <div class="nav-brand">
-                    <a href="#" class="logo" aria-label="Wanderlust Travel Agency Home">
-                        <i class="fas fa-globe-americas"></i>
-                        <span>Wanderlust</span>
+                    <a href="#" class="logo" aria-label="Travel Agency Home" id="headerLogo">
+                        <span id="logoText">Loading...</span>
                     </a>
                 </div>
                 
@@ -1393,11 +1392,10 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-brand">
-                        <a href="#" class="logo">
-                            <i class="fas fa-globe-americas"></i>
-                            <span>Wanderlust</span>
+                        <a href="#" class="logo" id="footerLogo">
+                            <span id="footerLogoText">Loading...</span>
                         </a>
-                        <p>Your trusted partner in creating unforgettable travel experiences around the world.</p>
+                        <p id="footerDescription">Your trusted partner in creating unforgettable travel experiences around the world.</p>
                     </div>
                 </div>
                 
@@ -1566,6 +1564,113 @@
             
             console.log('Cache busting initialized with timestamp:', timestamp);
         })();
+    </script>
+
+    <!-- Config-based Meta Tag Updates -->
+    <script>
+        // Load and apply config values to meta tags and content
+        async function loadAndApplyConfig() {
+            try {
+                const response = await fetch('config.json?v=' + new Date().getTime());
+                const config = await response.json();
+                
+                // Update basic meta tags
+                const descriptionMeta = document.querySelector('meta[name="description"]');
+                if (descriptionMeta && config.companyInfo?.description) {
+                    descriptionMeta.setAttribute('content', config.companyInfo.description);
+                }
+                
+                const authorMeta = document.querySelector('meta[name="author"]');
+                if (authorMeta && config.companyInfo?.name) {
+                    authorMeta.setAttribute('content', config.companyInfo.name);
+                }
+                
+                // Update Open Graph URL
+                const ogUrlMeta = document.querySelector('meta[property="og:url"]');
+                if (ogUrlMeta && config.companyInfo?.website) {
+                    ogUrlMeta.setAttribute('content', config.companyInfo.website);
+                }
+                
+                // Update other meta tags with config values
+                const ogTitleMeta = document.querySelector('meta[property="og:title"]');
+                if (ogTitleMeta && config.companyInfo?.name) {
+                    const cleanTagline = config.companyInfo.tagline?.replace(/🌍/g, '').trim() || '';
+                    ogTitleMeta.setAttribute('content', `${config.companyInfo.name} - ${cleanTagline}`);
+                }
+                
+                const ogDescMeta = document.querySelector('meta[property="og:description"]');
+                if (ogDescMeta && config.companyInfo?.description) {
+                    ogDescMeta.setAttribute('content', config.companyInfo.description);
+                }
+                
+                // Update page title
+                if (config.companyInfo?.name && config.companyInfo?.tagline) {
+                    const cleanTagline = config.companyInfo.tagline.replace(/🌍/g, '').trim();
+                    document.title = `${config.companyInfo.name} - ${cleanTagline}`;
+                }
+                
+                // Update header logo
+                const headerLogo = document.getElementById('headerLogo');
+                const logoText = document.getElementById('logoText');
+                if (headerLogo && logoText && config.companyInfo?.name) {
+                    logoText.textContent = config.companyInfo.name;
+                    headerLogo.setAttribute('aria-label', `${config.companyInfo.name} Home`);
+                }
+                
+                // Update footer logo and description
+                const footerLogoText = document.getElementById('footerLogoText');
+                if (footerLogoText && config.companyInfo?.name) {
+                    footerLogoText.textContent = config.companyInfo.name;
+                }
+                
+                const footerDescription = document.getElementById('footerDescription');
+                if (footerDescription && config.companyInfo?.description) {
+                    footerDescription.textContent = config.companyInfo.description;
+                }
+                
+                // Update Twitter Card meta tags
+                const twitterTitleMeta = document.querySelector('meta[name="twitter:title"]');
+                if (twitterTitleMeta && config.companyInfo?.name) {
+                    twitterTitleMeta.setAttribute('content', config.companyInfo.name);
+                }
+                
+                const twitterDescMeta = document.querySelector('meta[name="twitter:description"]');
+                if (twitterDescMeta && config.companyInfo?.tagline) {
+                    const cleanTagline = config.companyInfo.tagline.replace(/🌍/g, '').trim();
+                    twitterDescMeta.setAttribute('content', cleanTagline);
+                }
+                
+                // Update structured data
+                const structuredDataScript = document.querySelector('script[type="application/ld+json"]');
+                if (structuredDataScript && config.companyInfo) {
+                    const structuredData = {
+                        "@context": "https://schema.org",
+                        "@type": "TravelAgency",
+                        "name": config.companyInfo.name || "Travel Agency",
+                        "description": config.companyInfo.description || "Professional travel agency services",
+                        "url": config.companyInfo.website || "",
+                        "telephone": config.companyInfo.phone || "",
+                        "email": config.companyInfo.email || "",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": config.companyInfo.address?.street || "",
+                            "addressLocality": config.companyInfo.address?.city || "",
+                            "addressRegion": config.companyInfo.address?.state || "",
+                            "postalCode": config.companyInfo.address?.zip || "",
+                            "addressCountry": config.companyInfo.address?.country || "US"
+                        }
+                    };
+                    structuredDataScript.textContent = JSON.stringify(structuredData, null, 4);
+                }
+                
+                console.log('Meta tags and content updated from config.json');
+            } catch (error) {
+                console.warn('Could not load config.json for meta tag updates:', error);
+            }
+        }
+        
+        // Apply config immediately
+        loadAndApplyConfig();
     </script>
 
     <!-- JavaScript with cache busting -->
