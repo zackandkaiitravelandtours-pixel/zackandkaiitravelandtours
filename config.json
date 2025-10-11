@@ -1135,8 +1135,8 @@
     "ogImage": "images/og-image.jpg"
   },
   "emailjs": {
-    "serviceID": "service_9bakog3",
-    "publicKey": "876HVDkWSODpa173B",
+    "serviceID": "service_budtk2e",
+    "publicKey": "EpOGefaDn9a9Gba4d",
     "templates": {
       "inquiry": "template_inquiry",
       "booking": "template_booking"
