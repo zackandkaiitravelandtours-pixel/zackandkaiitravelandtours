@@ -515,7 +515,7 @@
     {
       "name": "Korea",
       "price": "$999",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-korea.jpg",
       "description": "Discover the Magic of South Korea",
       "duration": "5 Days / 4 Nights",
       "highlights": [
@@ -650,7 +650,7 @@
     {
       "name": "Vietnam",
       "price": "$799",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-vietnam.jpg",
       "description": "Discover a breathtaking natural landscapes of Vietnam",
       "duration": "5 Days / 4 Nights",
       "highlights": [
@@ -716,7 +716,7 @@
     {
       "name": "Boracay",
       "price": "$699",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-boracay.jpg",
       "description": "Discover the Island of Boracay",
       "duration": "5 Days / 4 Nights",
       "highlights": [
@@ -785,7 +785,7 @@
     {
       "name": "Siargao",
       "price": "$699",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-siargao.jpg",
       "description": "Amazing destination description",
       "duration": "5 Days / 4 Nights",
       "highlights": [
@@ -855,7 +855,7 @@
     {
       "name": "Cebu",
       "price": "$599",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-cebu.jpg",
       "description": "Discover beautiful beaches, world-class diving spots, and historical landmarks such as Magellan’s Cross, Basilica del Santo Niño, and Fort San Pedro.",
       "duration": "5 Days / 4 Nights",
       "highlights": [
@@ -924,7 +924,7 @@
     {
       "name": "Siquijor",
       "price": "$699",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-siquijor.jpg",
       "description": "Amazing destination description",
       "duration": "4 Days / 3 Nights",
       "highlights": [
@@ -985,7 +985,7 @@
     {
       "name": "Iloilo",
       "price": "$599",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-iloilo.jpg",
       "description": "Discover beautiful churches, such as the Molo Church and Miag-ao Church (a UNESCO World Heritage Site), and its vibrant festivals, especially the Dinagyang Festival, which celebrates devotion to the Santo Niño and showcases Ilonggo culture and creativity.",
       "duration": "4 Days / 3 Nights",
       "highlights": [
@@ -1044,7 +1044,7 @@
     {
       "name": "Bohol",
       "price": "$599",
-      "image": "images/new-destination.jpg",
+      "image": "images/destination-bohol.jpg",
       "description": "Stunning natural beauty, rich history, and warm hospitality. It is most famous for the Chocolate Hills, a unique geological formation of over 1,200 symmetrical hills that turn brown during the dry season, resembling giant chocolate mounds.",
       "duration": "4 Days / 3 Nights",
       "highlights": [
