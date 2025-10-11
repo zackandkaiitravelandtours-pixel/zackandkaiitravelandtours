@@ -12,13 +12,7 @@
       "zip": "4007",
       "country": "US"
     },
-    "website": "https://zackandkaiitravelandtours.com",
-    "headerLogo": {
-      "type": "image",
-      "imagePath": "images/header-banner.png",
-      "height": "40px",
-      "fallbackText": "Zack and Kaii Travel and Tours"
-    }
+    "website": "https://zackandkaiitravelandtours.com"
   },
   "theme": {
     "primaryColor": "#2563eb",
@@ -72,43 +66,89 @@
       "image": "images/destination-bali.jpg",
       "description": "Tropical paradise with ancient temples",
       "duration": "7 Days / 6 Nights",
-      "highlights": ["Visit ancient temples", "Beach relaxation", "Traditional cooking class", "Rice terrace tours"],
-      "included": ["Round-trip flights", "6 nights hotel accommodation", "Daily breakfast", "Airport transfers", "English-speaking guide"],
+      "highlights": [
+        "Visit ancient temples",
+        "Beach relaxation",
+        "Traditional cooking class",
+        "Rice terrace tours"
+      ],
+      "included": [
+        "Round-trip flights",
+        "6 nights hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers",
+        "English-speaking guide"
+      ],
       "itinerary": [
         {
           "day": 1,
           "title": "Arrival in Bali",
-          "activities": ["Airport pickup", "Hotel check-in", "Welcome dinner", "Evening at leisure"]
+          "activities": [
+            "Airport pickup",
+            "Hotel check-in",
+            "Welcome dinner",
+            "Evening at leisure"
+          ]
         },
         {
           "day": 2,
           "title": "Ubud Cultural Tour",
-          "activities": ["Visit Tegallalang Rice Terraces", "Ubud Monkey Forest", "Traditional art villages", "Lunch at local restaurant"]
+          "activities": [
+            "Visit Tegallalang Rice Terraces",
+            "Ubud Monkey Forest",
+            "Traditional art villages",
+            "Lunch at local restaurant"
+          ]
         },
         {
           "day": 3,
           "title": "Temple Hopping",
-          "activities": ["Tanah Lot Temple", "Uluwatu Temple", "Kecak Fire Dance", "Sunset dinner"]
+          "activities": [
+            "Tanah Lot Temple",
+            "Uluwatu Temple",
+            "Kecak Fire Dance",
+            "Sunset dinner"
+          ]
         },
         {
           "day": 4,
           "title": "Adventure Day",
-          "activities": ["White water rafting", "Sekumpul Waterfall", "Traditional cooking class", "Free evening"]
+          "activities": [
+            "White water rafting",
+            "Sekumpul Waterfall",
+            "Traditional cooking class",
+            "Free evening"
+          ]
         },
         {
           "day": 5,
           "title": "Beach Day",
-          "activities": ["Seminyak Beach", "Water sports (optional)", "Beach club lunch", "Spa treatment"]
+          "activities": [
+            "Seminyak Beach",
+            "Water sports (optional)",
+            "Beach club lunch",
+            "Spa treatment"
+          ]
         },
         {
           "day": 6,
           "title": "Volcano Tour",
-          "activities": ["Mount Batur sunrise trek", "Natural hot springs", "Coffee plantation visit", "Farewell dinner"]
+          "activities": [
+            "Mount Batur sunrise trek",
+            "Natural hot springs",
+            "Coffee plantation visit",
+            "Farewell dinner"
+          ]
         },
         {
           "day": 7,
           "title": "Departure",
-          "activities": ["Hotel checkout", "Last-minute shopping", "Airport transfer", "Departure"]
+          "activities": [
+            "Hotel checkout",
+            "Last-minute shopping",
+            "Airport transfer",
+            "Departure"
+          ]
         }
       ]
     },
@@ -118,33 +158,69 @@
       "image": "images/destination-santorini.jpg",
       "description": "Beautiful white buildings overlooking the sea",
       "duration": "5 Days / 4 Nights",
-      "highlights": ["Iconic blue-domed churches", "Romantic sunsets", "Wine tasting", "Volcanic beaches"],
-      "included": ["Round-trip flights", "4 nights cave hotel", "Daily breakfast", "Airport transfers", "Sunset cruise"],
+      "highlights": [
+        "Iconic blue-domed churches",
+        "Romantic sunsets",
+        "Wine tasting",
+        "Volcanic beaches"
+      ],
+      "included": [
+        "Round-trip flights",
+        "4 nights cave hotel",
+        "Daily breakfast",
+        "Airport transfers",
+        "Sunset cruise"
+      ],
       "itinerary": [
         {
           "day": 1,
           "title": "Arrival in Santorini",
-          "activities": ["Airport pickup", "Hotel check-in", "Fira town exploration", "Welcome dinner"]
+          "activities": [
+            "Airport pickup",
+            "Hotel check-in",
+            "Fira town exploration",
+            "Welcome dinner"
+          ]
         },
         {
           "day": 2,
           "title": "Oia Village & Sunset",
-          "activities": ["Oia village tour", "Blue-domed churches", "Art galleries", "Famous Oia sunset"]
+          "activities": [
+            "Oia village tour",
+            "Blue-domed churches",
+            "Art galleries",
+            "Famous Oia sunset"
+          ]
         },
         {
           "day": 3,
           "title": "Wine & Beaches",
-          "activities": ["Winery visits", "Wine tasting", "Red Beach", "Perissa Black Beach"]
+          "activities": [
+            "Winery visits",
+            "Wine tasting",
+            "Red Beach",
+            "Perissa Black Beach"
+          ]
         },
         {
           "day": 4,
           "title": "Volcano & Hot Springs",
-          "activities": ["Volcano boat tour", "Nea Kameni island", "Hot springs swim", "Thirassia island"]
+          "activities": [
+            "Volcano boat tour",
+            "Nea Kameni island",
+            "Hot springs swim",
+            "Thirassia island"
+          ]
         },
         {
           "day": 5,
           "title": "Departure",
-          "activities": ["Hotel checkout", "Souvenir shopping", "Airport transfer", "Departure"]
+          "activities": [
+            "Hotel checkout",
+            "Souvenir shopping",
+            "Airport transfer",
+            "Departure"
+          ]
         }
       ]
     },
@@ -154,33 +230,69 @@
       "image": "images/destination-maldives.jpg",
       "description": "Crystal clear waters and overwater bungalows",
       "duration": "5 Days / 4 Nights",
-      "highlights": ["Overwater bungalows", "Snorkeling & diving", "Spa treatments", "Private beach access"],
-      "included": ["Round-trip flights", "4 nights overwater villa", "All meals included", "Seaplane transfers", "Water sports"],
+      "highlights": [
+        "Overwater bungalows",
+        "Snorkeling & diving",
+        "Spa treatments",
+        "Private beach access"
+      ],
+      "included": [
+        "Round-trip flights",
+        "4 nights overwater villa",
+        "All meals included",
+        "Seaplane transfers",
+        "Water sports"
+      ],
       "itinerary": [
         {
           "day": 1,
           "title": "Arrival in Paradise",
-          "activities": ["Malé airport arrival", "Seaplane transfer", "Overwater villa check-in", "Welcome cocktails"]
+          "activities": [
+            "Malé airport arrival",
+            "Seaplane transfer",
+            "Overwater villa check-in",
+            "Welcome cocktails"
+          ]
         },
         {
           "day": 2,
           "title": "Water Adventures",
-          "activities": ["Snorkeling excursion", "Dolphin watching", "Kayaking", "Sunset fishing"]
+          "activities": [
+            "Snorkeling excursion",
+            "Dolphin watching",
+            "Kayaking",
+            "Sunset fishing"
+          ]
         },
         {
           "day": 3,
           "title": "Relaxation & Spa",
-          "activities": ["Couples spa treatment", "Private beach picnic", "Yoga session", "Stargazing dinner"]
+          "activities": [
+            "Couples spa treatment",
+            "Private beach picnic",
+            "Yoga session",
+            "Stargazing dinner"
+          ]
         },
         {
           "day": 4,
           "title": "Island Hopping",
-          "activities": ["Local island visit", "Cultural experience", "Traditional lunch", "Shopping for souvenirs"]
+          "activities": [
+            "Local island visit",
+            "Cultural experience",
+            "Traditional lunch",
+            "Shopping for souvenirs"
+          ]
         },
         {
           "day": 5,
           "title": "Departure",
-          "activities": ["Villa checkout", "Final swim", "Seaplane to Malé", "International departure"]
+          "activities": [
+            "Villa checkout",
+            "Final swim",
+            "Seaplane to Malé",
+            "International departure"
+          ]
         }
       ]
     },
@@ -190,38 +302,79 @@
       "image": "images/destination-tokyo.jpg",
       "description": "Modern city with traditional culture",
       "duration": "6 Days / 5 Nights",
-      "highlights": ["Traditional temples", "Modern technology", "Cherry blossoms", "Authentic cuisine"],
-      "included": ["Round-trip flights", "5 nights hotel", "Daily breakfast", "Airport transfers", "JR Pass included"],
+      "highlights": [
+        "Traditional temples",
+        "Modern technology",
+        "Cherry blossoms",
+        "Authentic cuisine"
+      ],
+      "included": [
+        "Round-trip flights",
+        "5 nights hotel",
+        "Daily breakfast",
+        "Airport transfers",
+        "JR Pass included"
+      ],
       "itinerary": [
         {
           "day": 1,
           "title": "Tokyo Arrival",
-          "activities": ["Narita airport pickup", "Hotel check-in", "Shibuya crossing", "Welcome dinner"]
+          "activities": [
+            "Narita airport pickup",
+            "Hotel check-in",
+            "Shibuya crossing",
+            "Welcome dinner"
+          ]
         },
         {
           "day": 2,
           "title": "Traditional Tokyo",
-          "activities": ["Senso-ji Temple", "Asakusa district", "Imperial Palace", "Traditional tea ceremony"]
+          "activities": [
+            "Senso-ji Temple",
+            "Asakusa district",
+            "Imperial Palace",
+            "Traditional tea ceremony"
+          ]
         },
         {
           "day": 3,
           "title": "Modern Tokyo",
-          "activities": ["Tokyo Skytree", "Harajuku fashion district", "Takeshita Street", "Robot Restaurant show"]
+          "activities": [
+            "Tokyo Skytree",
+            "Harajuku fashion district",
+            "Takeshita Street",
+            "Robot Restaurant show"
+          ]
         },
         {
           "day": 4,
           "title": "Day Trip to Nikko",
-          "activities": ["Bullet train to Nikko", "Toshogu Shrine", "Lake Chuzenji", "Return to Tokyo"]
+          "activities": [
+            "Bullet train to Nikko",
+            "Toshogu Shrine",
+            "Lake Chuzenji",
+            "Return to Tokyo"
+          ]
         },
         {
           "day": 5,
           "title": "Food & Shopping",
-          "activities": ["Tsukiji Fish Market", "Sushi making class", "Ginza shopping", "Farewell dinner"]
+          "activities": [
+            "Tsukiji Fish Market",
+            "Sushi making class",
+            "Ginza shopping",
+            "Farewell dinner"
+          ]
         },
         {
           "day": 6,
           "title": "Departure",
-          "activities": ["Hotel checkout", "Last-minute shopping", "Airport transfer", "Departure"]
+          "activities": [
+            "Hotel checkout",
+            "Last-minute shopping",
+            "Airport transfer",
+            "Departure"
+          ]
         }
       ]
     },
@@ -231,33 +384,69 @@
       "image": "images/destination-paris.jpg",
       "description": "Eiffel Tower and romantic cityscape",
       "duration": "5 Days / 4 Nights",
-      "highlights": ["Eiffel Tower", "Louvre Museum", "Seine River cruise", "French cuisine"],
-      "included": ["Round-trip flights", "4 nights boutique hotel", "Daily breakfast", "Airport transfers", "Museum passes"],
+      "highlights": [
+        "Eiffel Tower",
+        "Louvre Museum",
+        "Seine River cruise",
+        "French cuisine"
+      ],
+      "included": [
+        "Round-trip flights",
+        "4 nights boutique hotel",
+        "Daily breakfast",
+        "Airport transfers",
+        "Museum passes"
+      ],
       "itinerary": [
         {
           "day": 1,
           "title": "Bonjour Paris",
-          "activities": ["Charles de Gaulle pickup", "Hotel check-in", "Champs-Élysées walk", "Welcome dinner"]
+          "activities": [
+            "Charles de Gaulle pickup",
+            "Hotel check-in",
+            "Champs-Élysées walk",
+            "Welcome dinner"
+          ]
         },
         {
           "day": 2,
           "title": "Iconic Landmarks",
-          "activities": ["Eiffel Tower visit", "Arc de Triomphe", "Seine River cruise", "Notre-Dame area"]
+          "activities": [
+            "Eiffel Tower visit",
+            "Arc de Triomphe",
+            "Seine River cruise",
+            "Notre-Dame area"
+          ]
         },
         {
           "day": 3,
           "title": "Art & Culture",
-          "activities": ["Louvre Museum", "Tuileries Garden", "Montmartre & Sacré-Cœur", "Artists' quarter"]
+          "activities": [
+            "Louvre Museum",
+            "Tuileries Garden",
+            "Montmartre & Sacré-Cœur",
+            "Artists' quarter"
+          ]
         },
         {
           "day": 4,
           "title": "Versailles Day Trip",
-          "activities": ["Palace of Versailles", "Royal gardens", "Marie Antoinette's estate", "Return to Paris"]
+          "activities": [
+            "Palace of Versailles",
+            "Royal gardens",
+            "Marie Antoinette's estate",
+            "Return to Paris"
+          ]
         },
         {
           "day": 5,
           "title": "Au Revoir Paris",
-          "activities": ["Latin Quarter", "Souvenir shopping", "Farewell lunch", "Airport departure"]
+          "activities": [
+            "Latin Quarter",
+            "Souvenir shopping",
+            "Farewell lunch",
+            "Airport departure"
+          ]
         }
       ]
     },
@@ -267,28 +456,646 @@
       "image": "images/destination-dubai.jpg",
       "description": "Luxury and modern architecture",
       "duration": "4 Days / 3 Nights",
-      "highlights": ["Burj Khalifa", "Desert safari", "Luxury shopping", "Traditional souks"],
-      "included": ["Round-trip flights", "3 nights luxury hotel", "Daily breakfast", "Airport transfers", "Desert safari"],
+      "highlights": [
+        "Burj Khalifa",
+        "Desert safari",
+        "Luxury shopping",
+        "Traditional souks"
+      ],
+      "included": [
+        "Round-trip flights",
+        "3 nights luxury hotel",
+        "Daily breakfast",
+        "Airport transfers",
+        "Desert safari"
+      ],
       "itinerary": [
         {
           "day": 1,
           "title": "Dubai Arrival",
-          "activities": ["Dubai airport pickup", "Hotel check-in", "Dubai Mall visit", "Burj Khalifa at sunset"]
+          "activities": [
+            "Dubai airport pickup",
+            "Hotel check-in",
+            "Dubai Mall visit",
+            "Burj Khalifa at sunset"
+          ]
         },
         {
           "day": 2,
           "title": "Modern Dubai",
-          "activities": ["Burj Al Arab photo stop", "Palm Jumeirah", "Atlantis resort", "Marina dinner cruise"]
+          "activities": [
+            "Burj Al Arab photo stop",
+            "Palm Jumeirah",
+            "Atlantis resort",
+            "Marina dinner cruise"
+          ]
         },
         {
           "day": 3,
           "title": "Desert Adventure",
-          "activities": ["Desert safari", "Camel riding", "Sandboarding", "BBQ dinner & entertainment"]
+          "activities": [
+            "Desert safari",
+            "Camel riding",
+            "Sandboarding",
+            "BBQ dinner & entertainment"
+          ]
         },
         {
           "day": 4,
           "title": "Traditional Dubai",
-          "activities": ["Gold & Spice Souks", "Dubai Creek", "Abra boat ride", "Airport departure"]
+          "activities": [
+            "Gold & Spice Souks",
+            "Dubai Creek",
+            "Abra boat ride",
+            "Airport departure"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Korea",
+      "price": "$999",
+      "image": "images/new-destination.jpg",
+      "description": "Discover the Magic of South Korea",
+      "duration": "5 Days / 4 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival",
+          "activities": [
+            "Airport pickup",
+            "Hotel check-in",
+            "Welcome dinner",
+            "Explore the area"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Arrival & Traditional Seoul (Hanok, Palaces, and Culture)",
+          "activities": [
+            "Morning: Arrive at Incheon Airport; take the AREX Express Train to Seoul Station (45 mins). Check into your Myeongdong hotel and grab coffee at a nearby cafe.",
+            "Afternoon: Rent a hanbok (traditional dress) for free entry to Gyeongbokgung Palace. Watch the Changing of the Royal Guard ceremony (10 AM or 2 PM), explore the palace grounds, and stroll to Bukchon Hanok Village for narrow alleys lined with Joseon-era houses and viewpoints. Stop for tea at a hanok cafe.",
+            "Evening: Head to Insadong for crafts, street performers, and Ssamziegil Mall's spiraling shops. Dinner at a night market like Myeongdong for tteokbokki (spicy rice cakes) and hotteok (sweet pancakes)."
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Shopping & Modern Vibes (Myeongdong to Hongdae)",
+          "activities": [
+            "Morning: Shop in Myeongdong for K-beauty at Olive Young or Innisfree (tax refund available). Visit Jogyesa Temple for its colorful lanterns.",
+            "Afternoon: Subway to Hongdae (Line 2, ~20 mins). Wander Hongdae Walking Street for street art, indie shops, and cafes like Thanks Nature (sheep-themed). Activate your Discover Seoul Pass for free entry to Trickeye Museum (optical illusions) or a K-pop dance class.",
+            "Evening: Catch buskers or a Nanta cooking show (ticket required). Dinner: Korean BBQ at Gogigo."
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Gangnam Glam & River Relax",
+          "activities": [
+            "Morning: Subway to Gangnam (Line 2, ~15 mins). Stroll Garosu-gil for trendy cafes and boutiques; visit Starfield COEX Mall's stunning library and aquarium (free with Pass).",
+            "Afternoon: Explore Apgujeong Rodeo Street for luxury fashion and K-Star Road's K-pop statues. Walk Seoul Forest Park for deer spotting and cherry blossoms (seasonal).",
+            "Evening: Head to Yeouido Hangang Park for a picnic with 7-Eleven ramen cooked on outdoor machines. Watch the sunset over the Han River; optional Banpo Bridge Rainbow Fountain (8 PM, April–Oct)."
+          ]
+        },
+        {
+          "day": 5,
+          "title": "Markets, Art, & Departure",
+          "activities": [
+            "Morning: Visit Dongdaemun Design Plaza (DDP) for futuristic architecture and exhibits. Walk Cheonggyecheon Stream for urban waterfalls and bridges.",
+            "Afternoon: Explore Gwangjang Market for street food like bindaetteok (mung bean pancakes) and knife-cut noodles. Shop for souvenirs at Namdaemun Market nearby.",
+            "Evening: Subway back to Seoul Station or Incheon Airport (allow 1–2 hours). Grab last-minute snacks at Lotte Mart."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Thailand",
+      "price": "$699",
+      "image": "images/new-destination.jpg",
+      "description": "Explore the beauty of Thailand",
+      "duration": "5 Days / 4 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Bangkok – Transfer to Pattaya",
+          "activities": [
+            "Meet & Greet at Suvarnabhumi Airport  Private transfer from Bangkok to Pattaya (Approx. 2 hours)",
+            "Hotel check-in",
+            "Welcome dinner",
+            "Evening: Alcazar Cabaret Show or free time at Pattaya Beach  Overnight stay in Pattaya"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Pattaya – Coral Island Tour",
+          "activities": [
+            "Breakfast at hotel  Full-day Coral Island (Koh Larn) tour  Speedboat ride  Optional water sports (parasailing, jet skiing – at own expense)  Buffet lunch by the beach",
+            "Return to hotel in the afternoon",
+            "Traditional lunch",
+            "Free evening for shopping or explore Walking Street Pattaya  Overnight stay in Pattaya"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Pattaya to Bangkok – City Tour",
+          "activities": [
+            "Breakfast at hotel  Check-out and transfer back to Bangkok",
+            "En route visit to:  Gems Gallery  Tiger Park Pattaya (optional)",
+            "Bangkok City Tour:  Golden Buddha Temple (Wat Traimit)  Reclining Buddha (Wat Pho)  Drive through Rattanakosin Island",
+            "Check-in at Bangkok hotel",
+            "Evening: Optional Dinner Cruise on Chao Phraya River  Overnight stay in Bangkok"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Bangkok – Shopping & Leisure",
+          "activities": [
+            "Breakfast at hotel  Visit to Chatuchak Weekend Market (if weekend) or MBK Center / Siam Paragon / Platinum Mall",
+            "Optional: Visit Safari World or Dream World (theme parks)",
+            "Evening free to explore Asiatique the Riverfront night market  Overnight stay in Bangkok"
+          ]
+        },
+        {
+          "day": 5,
+          "title": "Departure",
+          "activities": [
+            "Breakfast at hotel",
+            "Free time until check-out",
+            "Transfer to Bangkok International Airport for departure"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Vietnam",
+      "price": "$799",
+      "image": "images/new-destination.jpg",
+      "description": "Discover a breathtaking natural landscapes of Vietnam",
+      "duration": "5 Days / 4 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Hanoi – City Introduction",
+          "activities": [
+            "Meet & Greet at Noi Bai International Airport  Transfer to hotel and check-in",
+            "Hotel check-in",
+            "Short orientation tour (if time permits):  Hoan Kiem Lake  Ngoc Son Temple  Explore the Old Quarter by cyclo (traditional rickshaw)"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Full-Day Hanoi City Tour",
+          "activities": [
+            "Breakfast at hotel  Explore the highlights of Hanoi:  Ho Chi Minh Mausoleum (outside only on Mondays & Fridays)  Presidential Palace & One Pillar Pagoda  Temple of Literature – Vietnam’s first university  Vietnam Museum of Ethnology or Hoa Lo Prison Museum",
+            "Afternoon: Local coffee break with Egg Coffee experience",
+            "Overnight stay in Hanoi"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Hanoi – Transfer to Ha Long Bay – Overnight Cruise",
+          "activities": [
+            "Early breakfast at hotel  Transfer to Ha Long Bay (approx. 2.5–3.5 hours)",
+            "Board your overnight cruise (3-star/4-star/5-star options)  Welcome drink and check-in to your cabin  Begin cruising through the spectacular limestone islands  Activities on board:  Sea kayaking  Visit to Sung Sot Cave or Titop Island  Cooking class on board  Sunset party and optional squid fishing",
+            "Overnight on cruise"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Ha Long Bay – Return to Hanoi",
+          "activities": [
+            "Morning Tai Chi on the sundeck  Light breakfast, followed by brunch on board",
+            "Continue cruising before disembarking at the pier  Transfer back to Hanoi",
+            "Free evening for shopping or relaxing",
+            "Overnight stay in Hanoi"
+          ]
+        },
+        {
+          "day": 5,
+          "title": "Departure",
+          "activities": [
+            "Breakfast at hotel",
+            "Free time until check-out",
+            "Transfer to Noi Bai International Airport for departure"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boracay",
+      "price": "$699",
+      "image": "images/new-destination.jpg",
+      "description": "Discover the Island of Boracay",
+      "duration": "5 Days / 4 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival in Boracay – Welcome to Paradise",
+          "activities": [
+            "Arrival at Caticlan Airport (or Kalibo Airport)  Private transfer to Boracay Island (Caticlan transfer takes about 15–20 minutes by boat)",
+            "Check-in at hotel (beachfront resorts or boutique hotels available)",
+            "Relax and enjoy the world-famous White Beach (swim, sunbathe, or enjoy water sports)",
+            "Overnight stay in Boracay"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Boracay Water Adventures",
+          "activities": [
+            "Breakfast at hotel  Morning: Island hopping tour to explore the best beaches of Boracay, including:  Puka Shell Beach (peaceful and less crowded)  Crystal Cove for cave exploration and snorkeling  Magic Island (for cliff diving and swimming)",
+            "Afternoon: Optional water sports activities like Parasailing, Jet Skiing, or Snorkeling",
+            "Evening: Fire Dancing Show or casual stroll along the beach during sunset",
+            "Overnight stay in Boracay"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Island Exploration & Leisure",
+          "activities": [
+            "Breakfast at hotel  Morning: Explore Mount Luho for a panoramic view of the island  Optional ATV ride to the summit",
+            "Afternoon: Relax at the beach or enjoy a spa treatment at one of the island’s luxury resorts",
+            "Visit Willy’s Rock—Boracay’s iconic landmark",
+            "Evening: Enjoy the nightlife at White Beach, with beachside bars and restaurants",
+            "Overnight stay in Boracay"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Free Day – Choose Your Adventure",
+          "activities": [
+            "Breakfast at hotel  Free day to enjoy the activities that interest you most:  Snorkeling at Crocodile Island or Tambisaan Beach  Scuba diving or Flyfish ride (available through diving shops)  Visit the nearby Boracay Butterfly Garden  Sunset cruise with a private boat or group tour",
+            "Evening: Dinner at a beachfront restaurant (try fresh seafood!)",
+            "Overnight stay in Boracay"
+          ]
+        },
+        {
+          "day": 5,
+          "title": "Departure",
+          "activities": [
+            "Breakfast at hotel",
+            "Free time until check-out",
+            "Transfer back to Caticlan or Kalibo Airport for your flight back"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Siargao",
+      "price": "$699",
+      "image": "images/new-destination.jpg",
+      "description": "Amazing destination description",
+      "duration": "5 Days / 4 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival & General Luna",
+          "activities": [
+            "Arrive at Sayak Airport (Siargao)  Transfer to accommodation (General Luna area)",
+            "Check-in & rest",
+            "Explore Cloud 9 Boardwalk / surf viewing deck",
+            "Dinner by the beach / local restaurant"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Island Hopping Tour",
+          "activities": [
+            "Breakfast - Join Tri-Island Tour:  Naked Island  Daku Island  Guyam Island",
+            "Lunch (usually included in tour)",
+            "Return to accommodation, free time",
+            "Dinner & nightlife (optional)"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Land Adventure Tour",
+          "activities": [
+            "Breakfast  Visit:  Magpupungko Rock Pools (check tide schedule)  Maasin River (bent coconut tree swing)  Coconut Mountain View Deck  Tayangban Cave Pool",
+            "Lunch (local eatery)",
+            "Back to hotel, rest",
+            "Dinner / Café hopping in General Luna"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Sugba Lagoon Tour",
+          "activities": [
+            "Breakfast  Full-day tour:  Sugba Lagoon (kayak, paddle board, dive platform)  Pamomoan Beach or Kawhagan Island",
+            "Lunch (often included)",
+            "Return to General Luna",
+            "Dinner / chill evening"
+          ]
+        },
+        {
+          "day": 5,
+          "title": "Departure",
+          "activities": [
+            "Early morning surf or sunrise walk",
+            "Breakfast",
+            "Souvenir shopping in General Luna",
+            "Check-out & transfer to airport"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cebu",
+      "price": "$599",
+      "image": "images/new-destination.jpg",
+      "description": "Discover beautiful beaches, world-class diving spots, and historical landmarks such as Magellan’s Cross, Basilica del Santo Niño, and Fort San Pedro.",
+      "duration": "5 Days / 4 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrive at Mactan–Cebu International Airport  ",
+          "activities": [
+            "Meet & greet / hotel transfer",
+            "Hotel check-in",
+            "City Tour:  Magellan’s Cross  Basilica del Santo Niño  Fort San Pedro  Taoist Temple  Heritage of Cebu Monument  Cebu Capitol & Tops Lookout (sunset view)",
+            "Dinner at a local restaurant"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Mactan Island Hopping",
+          "activities": [
+            "Breakfast  Island Hopping Tour:  Hilutungan Island  Caohagan Island  Nalusuan Island",
+            "Snorkeling & fish feeding",
+            "Lunch (usually included)",
+            "Return to hotel; free time or shopping (Ayala or SM Seaside)"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "South Cebu Adventure (Oslob Area)",
+          "activities": [
+            "Early morning departure (3:00–4:00 AM)  Oslob Whale Shark Watching 🐋",
+            "Tumalog Falls",
+            "Proceed to Sumilon Island Sandbar (optional lunch at Bluewater Resort)",
+            "Transfer to Moalboal (check-in for overnight stay)"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Moalboal & Kawasan Falls",
+          "activities": [
+            "Breakfast  Sardine Run & Turtle Watching (Panagsama Beach) 🐢",
+            "Kawasan Falls Canyoneering Adventure (optional but recommended!)",
+            "Lunch at local eatery",
+            "Return to Cebu City or stay another night in Moalboal"
+          ]
+        },
+        {
+          "day": 5,
+          "title": "Departure",
+          "activities": [
+            "Breakfast",
+            "Free time for souvenir shopping (Taboan Market / SM Cebu)",
+            "Hotel check-out & airport transfer"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Siquijor",
+      "price": "$699",
+      "image": "images/new-destination.jpg",
+      "description": "Amazing destination description",
+      "duration": "4 Days / 3 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival & Siquijor Coastal Tour",
+          "activities": [
+            "Arrive at Siquijor Port",
+            "Meet & greet / hotel transfer  Check-in & rest",
+            "Coastal Tour Highlights:  St. Francis of Assisi Bell Tower (welcome stop)  Capilay Spring Park  Paliton Beach (sunset viewing)",
+            "Dinner by the beach"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Island Inland Tour",
+          "activities": [
+            "Full-Day Inland Tour:  Lazi Church & Convent (UNESCO heritage site)  Cambugahay Falls (swimming + rope swing)  Balete Tree & Fish Spa (centuries-old tree)  Salagdoong Beach (cliff jumping, swimming)  Guiwanon Spring Park (mangrove walk)",
+            "Lunch (local restaurant)",
+            "Return to hotel; free time / optional massage",
+            "Dinner and relax"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Free Day / Adventure Options",
+          "activities": [
+            "Option 1: Relax at beach resort (Paliton or Solangon)",
+            "Option 2: Go snorkeling at Tubod Marine Sanctuary",
+            "Option 3: Short trip to nearby Apo Island (via Dumaguete day tour, optional)",
+            "Lunch on own arrangement",
+            "Sunset dinner or drinks by the sea"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Departure",
+          "activities": [
+            "Breakfast",
+            "Souvenir shopping (Siquijor Church area or San Juan shops)",
+            "Check-out & transfer to port",
+            "Ferry back to Cebu / Dumaguete"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Iloilo",
+      "price": "$599",
+      "image": "images/new-destination.jpg",
+      "description": "Discover beautiful churches, such as the Molo Church and Miag-ao Church (a UNESCO World Heritage Site), and its vibrant festivals, especially the Dinagyang Festival, which celebrates devotion to the Santo Niño and showcases Ilonggo culture and creativity.",
+      "duration": "4 Days / 3 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival & Iloilo City Heritage Tour",
+          "activities": [
+            "Arrival at Iloilo International Airport  Meet & greet / hotel transfer",
+            "Hotel check-in",
+            "City Heritage Tour Highlights:  Jaro Cathedral & Belfry  Molo Church (The Feminist Church)  Casa Mariquit (heritage house)  Calle Real (Old Downtown)  Iloilo River Esplanade (sunset walk)",
+            "Dinner at a local restaurant (e.g., Tatoy’s, Breakthrough)"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Guimaras Island Day Tour 🍋",
+          "activities": [
+            "Early breakfast  Take ferry from Iloilo to Guimaras Island (15 min)",
+            "Guimaras Tour Highlights:  Smallest Plaza  Trappist Monastery  Mango Plantation  Guisi Lighthouse & Beach  Alubihod Beach (swimming & lunch)  Souvenir shopping (mango products, local handicrafts)",
+            "Return to Iloilo City",
+            "Dinner / free time"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Southern Iloilo Countryside Tour",
+          "activities": [
+            "Breakfast  Full-Day Tour:  Garin Farm (San Joaquin) – “Stairway to Heaven” viewpoint  Miag-ao Church (UNESCO World Heritage Site)  Tigbauan Church  San Joaquin Cemetery",
+            "Lunch (local restaurant)",
+            "Return to hotel",
+            "Dinner at Iloilo Business Park or Smallville"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Departure",
+          "activities": [
+            "Breakfast",
+            "Souvenir shopping (La Paz Market, Festive Walk Mall)",
+            "Check-out & airport transfer"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bohol",
+      "price": "$599",
+      "image": "images/new-destination.jpg",
+      "description": "Stunning natural beauty, rich history, and warm hospitality. It is most famous for the Chocolate Hills, a unique geological formation of over 1,200 symmetrical hills that turn brown during the dry season, resembling giant chocolate mounds.",
+      "duration": "4 Days / 3 Nights",
+      "highlights": [
+        "Beautiful scenery",
+        "Cultural experience",
+        "Adventure activities"
+      ],
+      "included": [
+        "Round-trip flights",
+        "Hotel accommodation",
+        "Daily breakfast",
+        "Airport transfers"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "title": "Arrival & Panglao Tour",
+          "activities": [
+            "Arrive in Bohol (Panglao Airport)  Meet & greet / hotel transfer",
+            "Hotel check-in",
+            "Half-Day Panglao Tour:  Hinagdanan Cave  Dauis Church  Bohol Bee Farm (organic food tasting & souvenir shop)  Alona Beach sunset walk",
+            "Dinner by the beach"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Countryside Tour (Chocolate Hills & Tarsiers)",
+          "activities": [
+            "Breakfast",
+            "Full-Day Countryside Tour:  Blood Compact Shrine  Baclayon Church (optional museum visit)  Tarsier Sanctuary (Corella)  Loboc River Cruise (lunch included)  Man-made Forest (Bilar)  Chocolate Hills (Carmen view deck)",
+            "Back to hotel; free evening"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Island Hopping Tour",
+          "activities": [
+            "Early breakfast  Island Hopping Highlights:  Dolphin Watching (early morning)  Balicasag Island (snorkeling, turtle sanctuary)  Virgin Island Sandbar",
+            "Lunch (optional island picnic)",
+            "Return to hotel; relax or swim at Alona Beach",
+            "Dinner"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Departure",
+          "activities": [
+            "Souvenir shopping (island delicacies, peanut kisses, etc.)",
+            "Hotel check-out",
+            "Transfer to airport or ferry port"
+          ]
         }
       ]
     }
